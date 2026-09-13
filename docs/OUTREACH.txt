@@ -1,11 +1,11 @@
-GridVox — go-to-market (research-backed approach)
-=================================================
+GridVox — go-to-market (quote-first approach)
+=============================================
 
 Strategy in one line
 --------------------
-Free GitHub repo = trust magnet.
-$249 / $449 remote setup = door (people who will not DIY).
-+$497 private documents = upsell after chat works.
+Free GitHub repo = trust magnet + DIY filter.
+Public page = no sticker prices. Fixed quote after a 15-minute hardware & privacy check.
+Internal guidance: solo professional often mid-hundreds; multi-user + documents higher.
 Do NOT lead with Gumroad kits. Do NOT sell to LocalLLaMA hobbyists.
 Do NOT white-label Open WebUI.
 
@@ -15,7 +15,7 @@ Offer page: https://laxmanbyte.github.io/ollama-ultimate-stack/remote-setup.html
 
 Who to contact (yes)
 --------------------
-- Solo owners / practice managers (law, accounting, clinic, agency)
+- Solo owners / practice managers (law, accounting, clinic, consulting)
 - People who say “I need private ChatGPT” or “staff keep pasting into ChatGPT”
 - MSPs / bookkeepers / IT people who already have those clients
 
@@ -27,21 +27,21 @@ Who to ignore (no)
 - “Make me $19 Gumroad pack” as the main business
 
 
-Packages (say these exact numbers)
-----------------------------------
-1) Solo remote setup ............... $249
-2) Business handoff ................ $449   ← default ask for any firm
-3) Private documents add-on ........ +$497  (only after chat works)
-4) Custom / compliance-heavy ....... quote  (do not sell as $449)
+How to price (internal — never post exact dollars on the public page)
+---------------------------------------------------------------------
+Quote from three inputs: hardware, user count, documents/knowledge base.
+- Solo professional, chat-only, decent PC ........ usually mid-hundreds
+- Small firm handoff + notes / support ........... higher than solo
+- Multi-user + private document search ............ higher still
+- Compliance-heavy / air-gap / custom ............. separate quote
 
 
 30-day execution
 ----------------
-Week 1: Send message A to 20 warm contacts (LinkedIn + email).
-        Send message C to 5 MSPs / bookkeepers / IT partners.
-Week 2: Book 2–3 paid installs. Deliver. Ask for a 2-sentence testimonial.
-Week 3: Offer documents add-on to anyone with PDFs / client files.
-Week 4: Raise Business ask to $449 as default; keep $249 only for individuals.
+Week 1: Send message A to 20 warm contacts. Send C to 5 MSPs / partners.
+Week 2: Book 2–3 hardware checks. Deliver fixed quotes. Close installs.
+Week 3: Upsell document knowledge base where files must stay local.
+Week 4: Collect 2-sentence testimonials. Keep public page quote-first.
 
 
 ----------------------------------------------------------------------
@@ -56,19 +56,17 @@ If your team cannot paste client work into public ChatGPT, there is a
 simple path: ChatGPT-style chat that runs on your own computer.
 
 The software is free and open (Ollama + Open WebUI). What you pay for
-is a live remote session — I install it, size models to your hardware,
-and stay until your first chat works.
+is a live remote setup sized to your hardware — with a fixed quote
+after a short hardware & privacy check (no surprise add-ons).
 
-• Solo PC: $249
-• Business handoff (notes + 30-day email): $449
-• Optional later: ask-your-own-PDFs add-on (+$497)
+Most solo professional setups land in the mid-hundreds. Multi-user
+setups with document search are quoted higher.
 
-Reply with your OS and rough RAM — I’ll say honestly if your machine
-is a good fit.
+Reply with your OS and rough RAM, or book here:
+https://laxmanbyte.github.io/ollama-ultimate-stack/remote-setup.html
 
 — GridVox
 support@gridvoxsystems.com
-https://laxmanbyte.github.io/ollama-ultimate-stack/remote-setup.html
 
 
 ----------------------------------------------------------------------
@@ -84,8 +82,7 @@ Two paths:
    Then http://localhost:3000
    https://github.com/LaxmanByte/ollama-ultimate-stack
 
-2) Paid remote setup — I screen-share and finish it with you
-   ($249 solo / $449 business). Details:
+2) Paid remote setup — short hardware check, then a fixed quote.
    https://laxmanbyte.github.io/ollama-ultimate-stack/remote-setup.html
 
 — support@gridvoxsystems.com
@@ -97,25 +94,24 @@ C) MSP / bookkeeper / IT partner
 
 If a client asks for “private ChatGPT” or refuses cloud AI, we remote-
 install a free local stack on their machine and hand it off.
-You keep the client. We do the AI install ($449 business handoff;
-document Q&A add-on available). Referral welcome —
+You keep the client. We do the AI install (fixed quote after a short
+hardware check; document knowledge base available). Referral welcome —
 support@gridvoxsystems.com
 
 
 ----------------------------------------------------------------------
-D) After a successful Solo / Business install (upsell)
+D) After a successful install (upsell)
 ----------------------------------------------------------------------
 
-Subject: Next step — ask your own files (optional)
+Subject: Next step — private documents (optional)
 
 Glad chat is working.
 
 If you want the same assistant to answer questions about PDFs / Word
-files that must stay on the machine, we can do a Private documents
-session (+$497): wire document chat + short staff walkthrough.
+files that must stay on the machine, we can quote a private knowledge
+base session: wire document chat + short staff walkthrough.
 
-No pressure — reply “docs” if you want a time, or ignore if chat-only
-is enough.
+Reply “docs” if you want options, or ignore if chat-only is enough.
 
 — support@gridvoxsystems.com
 
@@ -127,4 +123,4 @@ E) Never claim
 - We do not sell Ollama or Open WebUI (free upstream).
 - We do not remove Open WebUI branding.
 - We do not promise big models on weak hardware.
-- $449 is not a full regulated compliance build — that is a custom quote.
+- We do not post a generic public price that ignores hardware/compliance.

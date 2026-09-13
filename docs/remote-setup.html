@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Private Local AI — Remote Setup | GridVox</title>
-  <meta name="description" content="Remote install of private local AI on your PC. Free open stack. You pay for a human until chat works. Optional document Q&amp;A add-on. support@gridvoxsystems.com">
+  <title>Private Local AI — Fixed Quote | GridVox</title>
+  <meta name="description" content="Get a fixed quote for private local AI on your machine. Hardware check first. Free open-source DIY path available. support@gridvoxsystems.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,500;0,9..40,700;1,9..40,500&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
@@ -40,38 +40,56 @@
       line-height: 1.05;
       animation: rise 0.7s ease both;
     }
-    h2 {
+    h1, h2 {
       font-family: "Fraunces", Georgia, serif;
-      font-size: 1.35rem;
       font-weight: 600;
-      margin: 2rem 0 0.6rem;
       letter-spacing: -0.02em;
     }
-    .lede {
-      font-size: 1.15rem;
+    h1 {
+      font-size: clamp(1.55rem, 4.5vw, 1.9rem);
+      margin: 1.75rem 0 0.45rem;
+      line-height: 1.2;
+      animation: rise 0.7s 0.06s ease both;
+    }
+    h2 {
+      font-size: 1.35rem;
+      margin: 2rem 0 0.6rem;
+    }
+    .sub {
+      font-size: 1.05rem;
       color: var(--muted);
-      margin: 0 0 1.5rem;
+      margin: 0 0 1rem;
       max-width: 34rem;
-      animation: rise 0.7s 0.08s ease both;
+      animation: rise 0.7s 0.1s ease both;
+    }
+    .body {
+      color: var(--muted);
+      margin: 0 0 0.85rem;
+      max-width: 36rem;
+      animation: rise 0.7s 0.12s ease both;
     }
     .cta-row {
       display: flex;
       flex-wrap: wrap;
       gap: 0.75rem;
-      margin: 1.25rem 0 0.5rem;
+      margin: 1.25rem 0 0.35rem;
       animation: rise 0.7s 0.16s ease both;
     }
-    a.btn {
+    a.btn, button.btn {
       display: inline-block;
       background: var(--moss);
       color: #f5faf7;
       text-decoration: none;
       font-weight: 700;
+      font-family: inherit;
+      font-size: 1rem;
       padding: 0.85rem 1.25rem;
+      border: 0;
       border-radius: 0.35rem;
+      cursor: pointer;
       transition: background 0.2s, transform 0.2s;
     }
-    a.btn:hover { background: var(--moss-deep); transform: translateY(-1px); }
+    a.btn:hover, button.btn:hover { background: var(--moss-deep); transform: translateY(-1px); }
     a.ghost {
       display: inline-block;
       color: var(--moss-deep);
@@ -80,38 +98,58 @@
       text-decoration: underline;
       text-underline-offset: 0.2em;
     }
+    .small {
+      font-size: 0.88rem;
+      color: #6a7a70;
+      margin: 0.35rem 0 0;
+      max-width: 34rem;
+      animation: rise 0.7s 0.2s ease both;
+    }
     ul { padding-left: 1.15rem; margin: 0.4rem 0 0; color: var(--muted); }
     li { margin: 0.35rem 0; }
-    .price {
-      display: grid;
-      gap: 0.85rem;
-      margin: 1rem 0 0;
+    .form-card {
+      margin-top: 1rem;
+      padding: 1.15rem 1.1rem 1.25rem;
+      background: rgba(255,255,255,0.55);
+      border: 1px solid var(--mist);
+      border-radius: 0.4rem;
     }
-    .tier {
-      border-left: 3px solid var(--moss);
-      padding: 0.65rem 0 0.65rem 1rem;
-      background: rgba(255,255,255,0.45);
-    }
-    .tier.featured { border-left-color: var(--warm); background: rgba(255,255,255,0.7); }
-    .tier strong { display: block; font-size: 1.05rem; color: var(--ink); }
-    .amt { color: var(--warm); font-weight: 700; }
-    .tag {
-      display: inline-block;
-      font-size: 0.72rem;
+    label {
+      display: block;
+      font-size: 0.88rem;
       font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--moss-deep);
-      margin-bottom: 0.25rem;
+      margin: 0.85rem 0 0.3rem;
+      color: var(--ink);
     }
-    .note {
-      font-size: 0.92rem;
+    label:first-of-type { margin-top: 0; }
+    input, select, textarea {
+      width: 100%;
+      font: inherit;
+      padding: 0.55rem 0.65rem;
+      border: 1px solid var(--mist);
+      border-radius: 0.3rem;
+      background: #fff;
+      color: var(--ink);
+    }
+    textarea { min-height: 4.5rem; resize: vertical; }
+    .form-actions { margin-top: 1.15rem; }
+    .thanks {
+      display: none;
+      padding: 1rem;
+      background: rgba(31, 107, 74, 0.1);
+      border-left: 3px solid var(--moss);
       color: var(--muted);
+      margin-top: 1rem;
+    }
+    .thanks.show { display: block; }
+    .faq {
       margin-top: 1.5rem;
       padding-top: 1rem;
       border-top: 1px solid var(--mist);
     }
-    .fine { font-size: 0.85rem; color: #6a7a70; margin-top: 1.25rem; }
+    .faq strong { display: block; color: var(--ink); margin-bottom: 0.35rem; }
+    .faq p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    .fine { font-size: 0.85rem; color: #6a7a70; margin-top: 1.5rem; }
     @keyframes rise {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -121,60 +159,121 @@
 <body>
   <div class="wrap">
     <p class="brand">GridVox</p>
-    <p class="lede">Private ChatGPT-style AI on <em>your</em> computer. You pay for a live remote install — not a software license. The stack stays free and open. We leave when your first chat works.</p>
+
+    <h1>Get a Fixed Quote in 15 Minutes</h1>
+    <p class="sub">No hidden fees. If your machine cannot safely run a private model, we tell you before any work begins.</p>
+    <p class="body">Every setup is priced based on three things: your current hardware, how many people will use it, and whether you want your existing documents connected to a private knowledge base.</p>
+    <p class="body">Most solo professional setups are quoted in the mid-hundreds. Multi-user business setups with document search are quoted higher.</p>
+    <p class="body">If you are comfortable running commands and want to self-install, the free open-source path is also available.</p>
 
     <div class="cta-row">
-      <a class="btn" href="mailto:support@gridvoxsystems.com?subject=Book%20remote%20setup%20%E2%80%94%20GridVox&body=Hi%20GridVox%2C%0A%0AI%20want%20to%20book%20remote%20setup.%0A%0APackage%20(Solo%20%24249%20%2F%20Business%20%24449%20%2F%20%2B%20Documents%20add-on)%3A%0AOS%3A%0ARAM%20%2F%20GPU%20(if%20known)%3A%0AUse%20case%3A%0A%0AThanks.">Book by email</a>
-      <a class="ghost" href="https://github.com/LaxmanByte/ollama-ultimate-stack">Comfortable with setup.cmd? Free DIY →</a>
+      <a class="btn" href="#inquiry">Book a 15-Minute Hardware &amp; Privacy Check</a>
+      <a class="ghost" href="https://github.com/LaxmanByte/ollama-ultimate-stack">Prefer free self-install? →</a>
+    </div>
+    <p class="small">No obligation. After the call you will receive a fixed-price quote and a hardware readiness report. If you prefer to install it yourself, we will point you to the free do-it-yourself repository.</p>
+
+    <h2 id="inquiry">Tell us about your setup</h2>
+    <form class="form-card" id="quote-form" novalidate>
+      <label for="name">Full name</label>
+      <input id="name" name="name" type="text" required autocomplete="name">
+
+      <label for="email">Work email</label>
+      <input id="email" name="email" type="email" required autocomplete="email">
+
+      <label for="company">Company / practice name</label>
+      <input id="company" name="company" type="text" autocomplete="organization">
+
+      <label for="industry">Industry</label>
+      <select id="industry" name="industry" required>
+        <option value="">Select…</option>
+        <option>Law</option>
+        <option>Accounting</option>
+        <option>Healthcare</option>
+        <option>Consulting</option>
+        <option>Other</option>
+      </select>
+
+      <label for="users">How many users will need access?</label>
+      <select id="users" name="users" required>
+        <option value="">Select…</option>
+        <option>1</option>
+        <option>2–5</option>
+        <option>6–20</option>
+        <option>20+</option>
+      </select>
+
+      <label for="usecase">What would you use this for?</label>
+      <textarea id="usecase" name="usecase" required placeholder="e.g. draft emails, review contracts, ask questions about client PDFs"></textarea>
+
+      <label for="ai_now">Do you currently use ChatGPT, Copilot, or another AI tool?</label>
+      <select id="ai_now" name="ai_now" required>
+        <option value="">Select…</option>
+        <option>Yes</option>
+        <option>No</option>
+      </select>
+
+      <label for="hardware">What computer or server will this run on?</label>
+      <input id="hardware" name="hardware" type="text" required placeholder='e.g. Dell desktop, 16 GB RAM'>
+
+      <label for="timeline">Timeline</label>
+      <select id="timeline" name="timeline" required>
+        <option value="">Select…</option>
+        <option>ASAP</option>
+        <option>Within 30 days</option>
+        <option>Just researching</option>
+      </select>
+
+      <div class="form-actions">
+        <button class="btn" type="submit">See My Quote Options</button>
+      </div>
+    </form>
+    <div class="thanks" id="thanks" role="status">
+      Thanks. We will review your setup and send a fixed quote or a link to the free self-install path within 24 hours.
+      If your email client did not open, write to
+      <a href="mailto:support@gridvoxsystems.com">support@gridvoxsystems.com</a>.
     </div>
 
-    <h2>Step 1 — Get chat working (door)</h2>
-    <div class="price">
-      <div class="tier">
-        <span class="tag">Most first buyers</span>
-        <strong>Solo remote setup — <span class="amt">$249</span></strong>
-        Screen-share on one PC. Hardware check, install free Ollama + Open WebUI, download models that fit, stay until you send “Hello.” 7 days email for install issues.
-      </div>
-      <div class="tier featured">
-        <span class="tag">Small firms / teams</span>
-        <strong>Business handoff — <span class="amt">$449</span></strong>
-        Everything in Solo, plus plain-English notes for your team, which model to use when, and 30 days email support for this install.
-      </div>
-    </div>
-
-    <h2>Step 2 — Ask your own files (optional add-on)</h2>
-    <div class="price">
-      <div class="tier">
-        <span class="tag">After chat works</span>
-        <strong>Private documents — <span class="amt">+$497</span></strong>
-        Wire document chat on the same machine (PDFs / Word / folders you choose). Short training so staff can attach files safely. Best for offices that must not paste client work into public ChatGPT.
-      </div>
+    <div class="faq">
+      <strong>Why are prices not listed?</strong>
+      <p>Because a safe local AI setup depends on your actual hardware and your compliance needs. Posting a generic price would be misleading. We prefer to give you a fixed quote that matches your situation, with no surprise add-ons later.</p>
     </div>
 
     <h2>Who this is for</h2>
     <ul>
-      <li>Owners and staff who will <strong>not</strong> run Docker or PowerShell themselves</li>
-      <li>Work where drafts and files should stay on the office PC (legal, accounting, clinic, agency, NDA work)</li>
+      <li>Owners and staff who will not run Docker or PowerShell themselves</li>
+      <li>Work where drafts and files should stay on the office PC (legal, accounting, clinic, consulting, NDA work)</li>
       <li>Anyone who tried free guides and still does not have a working chat</li>
     </ul>
 
-    <h2>Who this is not for</h2>
-    <ul>
-      <li>Hobbyists who enjoy tinkering — use the free GitHub setup</li>
-      <li>Buyers who want a white-label “GridVox ChatGPT” UI (Open WebUI branding stays)</li>
-      <li>Enterprise compliance builds with air-gap audits — that is a custom quote, not these packages</li>
-    </ul>
-
-    <h2>What you are buying</h2>
-    <ul>
-      <li>A human on screen-share until the outcome works</li>
-      <li>Honest hardware sizing (we will say if a model will be slow or will not fit)</li>
-      <li>Not a license for Ollama or Open WebUI — those remain free upstream</li>
-    </ul>
-
-    <p class="note">Email <a href="mailto:support@gridvoxsystems.com">support@gridvoxsystems.com</a><br>
-    Subject: <strong>Book remote setup — GridVox</strong></p>
-    <p class="fine">Free DIY: <a href="https://github.com/LaxmanByte/ollama-ultimate-stack">github.com/LaxmanByte/ollama-ultimate-stack</a> → <code>setup.cmd</code> or <code>bash setup.sh</code> → wait for <strong>ALL MODELS DOWNLOADED SUCCESSFULLY</strong> → http://localhost:3000</p>
+    <p class="fine">Prefer to install it yourself? The tools are free and open-source. Start here:
+      <a href="https://github.com/LaxmanByte/ollama-ultimate-stack">github.com/LaxmanByte/ollama-ultimate-stack</a>
+      (<code>setup.cmd</code> on Windows, or <code>bash setup.sh</code> on Mac/Linux).</p>
   </div>
+  <script>
+    document.getElementById("quote-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var f = e.target;
+      if (!f.reportValidity()) return;
+      var lines = [
+        "Hardware & Privacy Check inquiry",
+        "",
+        "Name: " + f.name.value,
+        "Email: " + f.email.value,
+        "Company: " + f.company.value,
+        "Industry: " + f.industry.value,
+        "Users: " + f.users.value,
+        "Use case: " + f.usecase.value,
+        "Uses AI today: " + f.ai_now.value,
+        "Hardware: " + f.hardware.value,
+        "Timeline: " + f.timeline.value
+      ];
+      var mailto =
+        "mailto:support@gridvoxsystems.com" +
+        "?subject=" + encodeURIComponent("Hardware & Privacy Check — " + (f.company.value || f.name.value)) +
+        "&body=" + encodeURIComponent(lines.join("\n"));
+      window.location.href = mailto;
+      document.getElementById("thanks").classList.add("show");
+    });
+  </script>
 </body>
 </html>
