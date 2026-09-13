@@ -2,10 +2,10 @@
 
 Free ChatGPT-style AI on **your** computer: **Ollama** + **Open WebUI** + automatic download of well-known open models.
 
-No account. No API key. No license key. When the installer finishes, you open a browser and chat.
+No account. No API key. No license key.  
+**You do not need to know** whether you are on Windows, Mac, or Linux — or Intel vs Apple Silicon / ARM. Setup detects that and picks models that fit your RAM and GPU.
 
-**Web chat:** http://localhost:3000  
-**API:** http://localhost:11434
+**When setup finishes:** open http://localhost:3000 and chat.
 
 ```text
 You (browser)  →  Open WebUI (:3000)  →  Ollama (:11434)  →  models on disk
@@ -17,76 +17,62 @@ You (browser)  →  Open WebUI (:3000)  →  Ollama (:11434)  →  models on dis
 
 ## You are done when
 
-1. The install window prints **`ALL MODELS DOWNLOADED SUCCESSFULLY`**
+1. The setup window prints **`ALL MODELS DOWNLOADED SUCCESSFULLY`**
 2. http://localhost:3000 opens
 3. The model dropdown is **not empty** — type a message and send
 
-Do not close the install window during the first run. Model files are large (often 15–60 minutes).
+Do not close the window during the first run (often **15–60 minutes**). Models are large.
 
 ---
 
-## Complete install
+## Setup (one path)
 
-You need Git. Docker is installed for you if it is missing.
+### 1. Clone
 
-### Windows (easiest)
-
-1. Install [Git for Windows](https://git-scm.com/download/win) if `git` is not already on your PC.
-2. Open **PowerShell** and run:
-
-```powershell
-git clone https://github.com/LaxmanByte/ollama-ultimate-stack.git
-cd ollama-ultimate-stack
-explorer .
-```
-
-3. In the folder that opened, **double-click `check-hardware.cmd`**. Read RUN / SLOW / CRASH. Press any key.
-4. **Double-click `install.cmd`**.
-5. If Docker Desktop was just installed: open it from the Start menu, wait until it says the engine is running, then double-click `install.cmd` again.
-6. Wait until you see **`ALL MODELS DOWNLOADED SUCCESSFULLY`**.
-7. Open http://localhost:3000 — pick a model — send `Hello`.
-
-Same steps without double-click:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\check-hardware.ps1
-powershell -ExecutionPolicy Bypass -File .\install.ps1
-```
-
-### Linux / macOS / WSL
+Install [Git](https://git-scm.com/downloads) if you need it, then:
 
 ```bash
 git clone https://github.com/LaxmanByte/ollama-ultimate-stack.git
 cd ollama-ultimate-stack
-bash check-hardware.sh
-bash install.sh
 ```
 
-Then open http://localhost:3000
+### 2. Run setup (auto-detects your machine)
 
-If Docker was just installed on Linux, log out and back in (or reboot) so your user can use Docker, then run `bash install.sh` again.
+| Your computer | What to run |
+|---------------|-------------|
+| **Windows** | Double-click **`setup.cmd`** |
+| **Mac / Linux / WSL** | `bash setup.sh` |
+
+That is the whole install. Setup will:
+
+1. Read your RAM, CPU, GPU, and disk  
+2. Choose safe models for **this** machine (you do not pick tags)  
+3. Install Docker if it is missing  
+4. Start Ollama + Open WebUI  
+5. Download the models and **wait until they finish**
+
+If Docker Desktop was just installed on Windows: open it, wait until the engine is running, then double-click **`setup.cmd`** again.
+
+On Linux, if Docker was just installed: log out and back in (or reboot), then run `bash setup.sh` again.
+
+### 3. Chat
+
+Open **http://localhost:3000** → pick a model → send `Hello`.
 
 ---
 
 ## What gets downloaded
 
-The hardware check picks models that **fit this machine**. The installer then pulls those tags from the official [Ollama library](https://ollama.com/library) — well-known open models, not a private catalog.
+Well-known open models from the official [Ollama library](https://ollama.com/library) — whatever fits your machine, for example:
 
-| Role | Typical tag | What it is |
-|------|-------------|------------|
-| Fast coding (fits most PCs) | `qwen2.5-coder:7b` | Qwen2.5 Coder 7B |
-| Research / reasoning | `deepseek-r1:8b` or `deepseek-r1:14b` | DeepSeek R1 distill |
-| Strong coding (32GB or RTX 4090-class) | `devstral:24b` | Mistral Devstral |
-| Strong coding + GPU RAM | `qwen3-coder:30b` | Qwen3 Coder 30B |
-| File chat (always) | `nomic-embed-text` | Tiny embedding model so you can attach PDFs |
+| Role | Typical tag |
+|------|-------------|
+| Coding (most PCs) | `qwen2.5-coder:7b` |
+| Research | `deepseek-r1:8b` or `deepseek-r1:14b` |
+| Strong coding (lots of RAM / GPU) | `devstral:24b` or `qwen3-coder:30b` |
+| File / PDF chat | `nomic-embed-text` |
 
-**Honest hardware**
-
-- **8GB RAM:** 7B / 8B only. 24B will not run.
-- **16GB RAM, no GPU:** 7B is the daily driver. 14B is slow. 24B will crash.
-- **32GB RAM or a 24GB GPU (RTX 4090 class):** 24B is realistic.
-
-The checker writes `.hardware-profile`. The installer copies `profiles/8gb.env`, `16gb.env`, or `32gb.env`, then applies those model picks. It does **not** overwrite a `.env` you already customized.
+**Honest limits:** 8GB RAM stays on small models; 16GB without a strong GPU should not run 24B; 32GB RAM or a 24GB-class GPU can.
 
 ---
 
@@ -94,29 +80,31 @@ The checker writes `.hardware-profile`. The installer copies `profiles/8gb.env`,
 
 | You want | Do this |
 |----------|---------|
-| Chat | http://localhost:3000 → choose a model → type |
-| Ask about a PDF / Word / code file | In the same chat, click **+** or the paperclip, attach the file, ask |
-| List downloaded models | `docker exec ollama ollama list` |
+| Chat | http://localhost:3000 |
+| Ask about a PDF / Word / code file | Paperclip or **+** in chat → attach → ask |
+| List models | `docker exec ollama ollama list` |
 | Stop | `docker compose stop` |
-| Start again later | `docker compose start` (models stay on disk; no re-download) |
+| Start again later | `docker compose start` (no re-download) |
 
-More: [USAGE-GUIDE.md](USAGE-GUIDE.md) (Continue, Cline, API, troubleshooting).
+More detail: [USAGE-GUIDE.md](USAGE-GUIDE.md).
 
 ---
 
 ## Update later
 
+Same idea — one command for your machine:
+
 ```bash
-# Linux / macOS / WSL
+# Mac / Linux / WSL
 bash update.sh
 
-# Windows
+# Windows PowerShell
 .\update.ps1
 ```
 
-This keeps your `.env` (models, ports, secret). It does **not** delete downloaded models.
+Keeps your `.env`. Does not delete models.
 
-If a model failed mid-download, only re-run the puller:
+If a download failed mid-way:
 
 ```bash
 docker compose run --rm model-puller
@@ -124,29 +112,25 @@ docker compose run --rm model-puller
 
 ---
 
-## Commands
+## Commands (optional)
 
 ```text
-make check           Hardware diagnostic (no Docker required)
-make up              Start Ollama + WebUI
-make down            Stop everything
-make chat            Terminal chat (coding model)
-make models          List installed models
-make update          Git pull + image pull (keeps .env)
-make info            URLs and next steps
-make help            All targets
+bash setup.sh / setup.cmd   Full first-time setup (recommended)
+make check                  Hardware diagnostic only
+make up / make down         Start / stop
+make models                 List models
+make update                 Refresh from GitHub + images
+make info                   URLs and tips
 ```
-
-Windows without Make: `check-hardware.cmd`, `install.cmd`, `.\update.ps1`.
 
 ---
 
 ## Requirements
 
-- ~8GB RAM minimum (16GB recommended)
-- ~20–50GB free disk (depends on which models fit)
-- Internet **once**, for Docker images + model files
-- After that, everything is local
+- About **8GB+ RAM** (16GB nicer)
+- About **20–50GB** free disk (depends on models)
+- Internet **once** for Docker images + models  
+- After that, everything stays on your machine
 
 ---
 
@@ -154,14 +138,14 @@ Windows without Make: `check-hardware.cmd`, `install.cmd`, `.\update.ps1`.
 
 | Channel | Notes |
 |---------|-------|
-| [GitHub Issues](https://github.com/LaxmanByte/ollama-ultimate-stack/issues) | Bugs, install failures, hardware-check questions |
-| Email [support@gridvoxsystems.com](mailto:support@gridvoxsystems.com) | Short install questions |
+| [GitHub Issues](https://github.com/LaxmanByte/ollama-ultimate-stack/issues) | Bugs and install problems |
+| Email [support@gridvoxsystems.com](mailto:support@gridvoxsystems.com) | Short questions |
 | Remote setup | Optional screen-share until first chat works |
 
 The stack stays **free and MIT**. Optional help is not a license.
 
-A GUI one-click installer (no typing) is on the roadmap. It is **not for sale yet**. Waitlist: email [support@gridvoxsystems.com](mailto:support@gridvoxsystems.com) with subject **one-click waitlist**.
+A GUI one-click installer (no typing) is on the roadmap — not for sale yet. Waitlist: email [support@gridvoxsystems.com](mailto:support@gridvoxsystems.com) with subject **one-click waitlist**.
 
 ## License
 
-MIT. Models have their own licenses (Apache 2.0, etc.). Open WebUI keeps its own branding.
+MIT. Models have their own licenses. Open WebUI keeps its own branding.

@@ -14,6 +14,7 @@ jobs:
         run: docker compose -f docker-compose.yml -f docker-compose.gpu.yml config -q
       - name: Shell syntax
         run: |
+          bash -n setup.sh
           bash -n install.sh
           bash -n update.sh
           bash -n check-hardware.sh
@@ -27,8 +28,8 @@ jobs:
             echo ".env must not be committed — clones would skip hardware model picks"
             exit 1
           fi
-      - name: Windows double-click wrappers
-        run: test -f check-hardware.cmd && test -f install.cmd
+      - name: Universal setup entry points
+        run: test -f setup.cmd && test -f setup.ps1 && test -f setup.sh && test -f SETUP.txt
       - name: No license gate
         run: |
           ! grep -E 'license-checker|LICENSE_SERVER_URL|SKIP_LICENSE_CHECK|LICENSE_KEY' docker-compose.yml docker-compose.gpu.yml Makefile install.sh install.ps1 update.sh update.ps1 check-hardware.ps1 scripts/check-hardware.sh scripts/print-info.sh .env.example

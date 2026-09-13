@@ -2,19 +2,18 @@
 
 Step-by-step for chat, files, RAG, Continue, Cline, and troubleshooting. Everything is local. No API keys. No license activation.
 
-**Order:** clone → hardware check → install. Wait until the installer prints **`ALL MODELS DOWNLOADED SUCCESSFULLY`**, then open http://localhost:3000. Models stay on disk; the next start does not download them again.
+**Order:** clone → run **setup** (auto-detects your OS and hardware) → wait for **`ALL MODELS DOWNLOADED SUCCESSFULLY`** → open http://localhost:3000. Models stay on disk; the next start does not download them again.
 
-Windows: double-click `check-hardware.cmd`, then `install.cmd`. Linux / macOS / WSL: `bash check-hardware.sh` then `bash install.sh`. The installer calls the hardware check if you skipped it, and will not overwrite a custom `.env`.
+| Machine | Run |
+|---------|-----|
+| Windows | Double-click `setup.cmd` |
+| Mac / Linux / WSL | `bash setup.sh` |
 
-```bash
-# Linux / macOS / WSL
-bash scripts/check-hardware.sh
+You do not need to know Intel vs ARM or which model to pick. Setup will not overwrite a custom `.env`.
 
-# Windows (no bash)
-powershell -ExecutionPolicy Bypass -File .\check-hardware.ps1
-```
+Advanced (optional): `check-hardware.cmd` / `bash check-hardware.sh` alone, then `install.cmd` / `bash install.sh`.
 
-After `bash install.sh` or `.\install.ps1`:
+After setup finishes:
 
 | Surface | URL / command |
 |---------|----------------|

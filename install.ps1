@@ -14,7 +14,9 @@ Write-Host "====================================================================
 Write-Host "  OLLAMA ULTIMATE STACK — WINDOWS INSTALLER"
 Write-Host "=============================================================================="
 Write-Host ""
-Write-Host "Step 1 was clone. Step 2 is the hardware check. Step 3 is this installer."
+Write-Host "Detected this Windows PC automatically. You do not pick an OS or model."
+Write-Host ""
+Write-Host "Hardware profile first, then Docker + models. Leave this window open."
 Write-Host ""
 
 function Get-HardwareValue([string]$Key) {

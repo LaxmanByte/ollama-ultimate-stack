@@ -11,8 +11,11 @@ OLLAMA_PORT       ?= 11434
 
 .DEFAULT_GOAL := help
 
-.PHONY: check up down chat chat-research chat-fast models ps status logs webui-logs \
+.PHONY: setup check up down chat chat-research chat-fast models ps status logs webui-logs \
 	pull-coding pull-research pull-all update clean nuke info help stop restart
+
+setup: ## Full first-time setup (detect OS, hardware check, install, pull models)
+	@bash setup.sh
 
 check: ## Hardware diagnostic (no Docker required)
 	@bash scripts/check-hardware.sh
@@ -86,6 +89,7 @@ help: ## Show this help
 	@echo ""
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-16s %s\n", $$1, $$2}'
 	@echo ""
-	@echo "Windows (no Make):  check-hardware.cmd   install.cmd   .\\update.ps1"
+	@echo "First time:  bash setup.sh   (Windows: double-click setup.cmd)"
+	@echo "Later:       .\\update.ps1   or  bash update.sh"
 	@echo "WebUI: http://localhost:$(WEBUI_PORT)   API: http://localhost:$(OLLAMA_PORT)"
 	@echo ""

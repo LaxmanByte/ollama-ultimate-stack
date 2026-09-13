@@ -1,0 +1,25 @@
+Ollama Ultimate Stack — how to set up
+=====================================
+
+You do NOT need to know if you are on Windows, Mac, or Linux,
+or Intel vs Apple Silicon / ARM. Setup detects that for you.
+
+1. Install Git if needed: https://git-scm.com/downloads
+
+2. Clone:
+     git clone https://github.com/LaxmanByte/ollama-ultimate-stack.git
+     cd ollama-ultimate-stack
+
+3. Run ONE setup:
+     Windows ........ double-click  setup.cmd
+     Mac / Linux .... bash setup.sh
+
+4. Leave the window open until you see:
+     ALL MODELS DOWNLOADED SUCCESSFULLY
+   (often 15-60 minutes the first time)
+
+5. Open a browser:
+     http://localhost:3000
+   Pick a model and send Hello.
+
+Help: support@gridvoxsystems.com

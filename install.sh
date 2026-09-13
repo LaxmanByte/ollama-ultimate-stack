@@ -28,9 +28,9 @@ elif [ "${OSTYPE:-}" = "msys" ] || [ "${OSTYPE:-}" = "cygwin" ] || [ "${OSTYPE:-
     OS="windows"
 fi
 
-echo "Detected OS: $OS"
+echo "Detected OS: $OS (you do not need to choose — setup already picked this path)"
 echo ""
-echo "Step 1 was clone. Step 2 is the hardware check. Step 3 is this installer."
+echo "Hardware profile first, then Docker + models. Leave this window open."
 echo ""
 
 run_hardware_check() {
