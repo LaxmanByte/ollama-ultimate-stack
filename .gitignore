@@ -1,0 +1,23 @@
+# Client-local secrets and hardware overrides (update.sh preserves these)
+.env.local
+.env.client
+*.bak
+
+# Uploaded / mounted working files
+projects/*
+!projects/.gitkeep
+uploads/*
+!uploads/.gitkeep
+
+# Local leftovers — never commit keys
+licenses.json
+license.key
+license/key
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/
+*.swp

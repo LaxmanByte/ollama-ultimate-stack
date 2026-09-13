@@ -1,0 +1,23 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  compose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate docker compose
+        run: docker compose -f docker-compose.yml -f docker-compose.gpu.yml config -q
+      - name: Shell syntax
+        run: |
+          bash -n install.sh
+          bash -n update.sh
+          sh -n scripts/pull-models.sh
+          sh -n scripts/print-info.sh
+      - name: No license gate
+        run: |
+          ! grep -E 'license-checker|LICENSE_SERVER_URL|SKIP_LICENSE_CHECK|LICENSE_KEY' docker-compose.yml docker-compose.gpu.yml Makefile install.sh install.ps1 update.sh update.ps1 scripts/print-info.sh .env.example

@@ -1,0 +1,131 @@
+# =============================================================================
+# OLLAMA ULTIMATE STACK
+# Local AI: Ollama + Open WebUI (RAG, file upload) + one-time model puller
+# Clone, run install.sh / install.ps1, open http://localhost:3000
+# =============================================================================
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - "${OLLAMA_PORT:-11434}:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+      - ./scripts:/scripts:ro
+      - ./projects:/projects
+      - ./uploads:/uploads
+    environment:
+      - OLLAMA_HOST=0.0.0.0:11434
+      - OLLAMA_ORIGINS=*
+      - OLLAMA_KEEP_ALIVE=${OLLAMA_KEEP_ALIVE:-30m}
+      - OLLAMA_NUM_PARALLEL=${OLLAMA_NUM_PARALLEL:-1}
+      - OLLAMA_MAX_LOADED_MODELS=${OLLAMA_MAX_LOADED_MODELS:-1}
+      - OLLAMA_FLASH_ATTENTION=${OLLAMA_FLASH_ATTENTION:-0}
+      - OLLAMA_CONTEXT_LENGTH=${OLLAMA_CONTEXT_LENGTH:-16384}
+    deploy:
+      resources:
+        limits:
+          memory: ${OLLAMA_MEMORY_LIMIT:-12G}
+        reservations:
+          memory: ${OLLAMA_MEMORY_RESERVATION:-2G}
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list >/dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 18
+      start_period: 40s
+
+  model-puller:
+    image: ollama/ollama:latest
+    container_name: ollama-model-puller
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - PRIMARY_MODEL=${PRIMARY_MODEL:-devstral:24b}
+      - RESEARCH_MODEL=${RESEARCH_MODEL:-deepseek-r1:14b}
+      - FALLBACK_MODEL=${FALLBACK_MODEL:-qwen2.5-coder:7b}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-nomic-embed-text}
+    volumes:
+      - ./scripts:/scripts:ro
+    entrypoint: ["/bin/sh", "/scripts/pull-models.sh"]
+    depends_on:
+      ollama:
+        condition: service_healthy
+    restart: "no"
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: unless-stopped
+    ports:
+      - "${WEBUI_PORT:-3000}:8080"
+    volumes:
+      - open_webui_data:/app/backend/data
+      - ./projects:/projects
+      - ./uploads:/uploads
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY:-change-me-in-env-file}
+      - WEBUI_AUTH=${WEBUI_AUTH:-false}
+      - ENABLE_SIGNUP=${ENABLE_SIGNUP:-false}
+      - DEFAULT_MODELS=${PRIMARY_MODEL:-devstral:24b}
+      - ENABLE_PERSISTENT_CONFIG=false
+      - RAG_EMBEDDING_ENGINE=ollama
+      - RAG_EMBEDDING_MODEL=${EMBEDDING_MODEL:-nomic-embed-text}
+      - RAG_EMBEDDING_MODEL_AUTO_UPDATE=true
+      - RAG_OLLAMA_BASE_URL=http://ollama:11434
+      - RAG_TOP_K=${RAG_TOP_K:-5}
+      - CHUNK_SIZE=${CHUNK_SIZE:-1000}
+      - CHUNK_OVERLAP=${CHUNK_OVERLAP:-100}
+      - ENABLE_RAG_WEB_SEARCH=${ENABLE_RAG_WEB_SEARCH:-false}
+      - ENABLE_RAG_HYBRID_SEARCH=${ENABLE_RAG_HYBRID_SEARCH:-false}
+      - ENABLE_COMMUNITY_SHARING=false
+      - ENABLE_CHANNELS=false
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    depends_on:
+      ollama:
+        condition: service_healthy
+
+  setup-info:
+    image: alpine:latest
+    container_name: ollama-setup-info
+    environment:
+      - PRIMARY_MODEL=${PRIMARY_MODEL:-devstral:24b}
+      - RESEARCH_MODEL=${RESEARCH_MODEL:-deepseek-r1:14b}
+      - FALLBACK_MODEL=${FALLBACK_MODEL:-qwen2.5-coder:7b}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-nomic-embed-text}
+      - WEBUI_PORT=${WEBUI_PORT:-3000}
+      - OLLAMA_PORT=${OLLAMA_PORT:-11434}
+    volumes:
+      - ./scripts:/scripts:ro
+    entrypoint: ["/bin/sh", "/scripts/print-info.sh"]
+    depends_on:
+      open-webui:
+        condition: service_started
+    restart: "no"
+
+  # Optional: auto-pull newer Ollama / Open WebUI images.
+  # Enable with COMPOSE_PROFILES=auto-update in .env (shipped clients: 3600s).
+  watchtower:
+    image: containrrr/watchtower:1.7.1
+    container_name: ollama-watchtower
+    profiles: ["auto-update"]
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_INCLUDE_RESTARTING=true
+      - WATCHTOWER_POLL_INTERVAL=${WATCHTOWER_POLL_INTERVAL:-3600}
+    command: --label-enable
+    depends_on:
+      - ollama
+      - open-webui
+
+volumes:
+  ollama_data:
+  open_webui_data:

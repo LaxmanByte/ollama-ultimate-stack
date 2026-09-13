@@ -1,0 +1,14 @@
+# Optional NVIDIA GPU overlay.
+# Linux / Windows (WSL2 + NVIDIA Container Toolkit):
+#   COMPOSE_FILE=docker-compose.yml:docker-compose.gpu.yml
+# or:
+#   docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d
+# install.sh / install.ps1 enable this automatically when nvidia-smi is present.
+
+services:
+  ollama:
+    gpus: all
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      - OLLAMA_FLASH_ATTENTION=1

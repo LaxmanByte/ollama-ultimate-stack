@@ -1,0 +1,75 @@
+{
+  "models": [
+    {
+      "title": "Ollama - devstral (Coding)",
+      "provider": "ollama",
+      "model": "devstral:24b",
+      "apiBase": "http://localhost:11434"
+    },
+    {
+      "title": "Ollama - deepseek-r1 (Research)",
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "apiBase": "http://localhost:11434"
+    },
+    {
+      "title": "Ollama - qwen2.5-coder (Fast)",
+      "provider": "ollama",
+      "model": "qwen2.5-coder:7b",
+      "apiBase": "http://localhost:11434"
+    }
+  ],
+  "tabAutocompleteModel": {
+    "title": "Ollama - qwen2.5-coder",
+    "provider": "ollama",
+    "model": "qwen2.5-coder:7b",
+    "apiBase": "http://localhost:11434"
+  },
+  "embeddingsProvider": {
+    "provider": "ollama",
+    "model": "nomic-embed-text",
+    "apiBase": "http://localhost:11434"
+  },
+  "allowAnonymousTelemetry": false,
+  "customCommands": [
+    {
+      "name": "test",
+      "prompt": "Write a comprehensive set of unit tests for the selected code. Cover edge cases, error conditions, and normal operation. Use the same language and testing framework as the project.",
+      "description": "Write unit tests for selected code"
+    },
+    {
+      "name": "fix",
+      "prompt": "Analyze the selected code for bugs, security issues, and performance problems. Fix all issues and explain what was wrong.",
+      "description": "Fix code issues"
+    },
+    {
+      "name": "explain",
+      "prompt": "Explain the selected code in detail. Break down the logic, data flow, and any design patterns used. Make it understandable for a junior developer.",
+      "description": "Explain code in detail"
+    },
+    {
+      "name": "refactor",
+      "prompt": "Refactor the selected code to improve readability, maintainability, and performance. Follow best practices and modern standards for the language. Explain the changes.",
+      "description": "Refactor code"
+    },
+    {
+      "name": "document",
+      "prompt": "Add comprehensive documentation to the selected code including docstrings, inline comments, and a header comment explaining the file's purpose.",
+      "description": "Add documentation to code"
+    }
+  ],
+  "contextProviders": [
+    { "name": "diff", "params": {} },
+    { "name": "open", "params": {} },
+    { "name": "terminal", "params": {} },
+    { "name": "problems", "params": {} },
+    { "name": "folder", "params": {} },
+    { "name": "codebase", "params": {} }
+  ],
+  "slashCommands": [
+    { "name": "edit", "description": "Edit selected code" },
+    { "name": "comment", "description": "Add comments to code" },
+    { "name": "share", "description": "Export conversation" },
+    { "name": "cmd", "description": "Generate a shell command" }
+  ]
+}
