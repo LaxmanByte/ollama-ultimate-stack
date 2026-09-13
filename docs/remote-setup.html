@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Private Local AI — Remote Setup | GridVox</title>
+  <meta name="description" content="Screen-share install of private local AI on your PC. Free open stack. You pay for a human until chat works. support@gridvoxsystems.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,500;0,9..40,700;1,9..40,500&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0e1412;
+      --paper: #e8f0ea;
+      --moss: #1f6b4a;
+      --moss-deep: #145238;
+      --mist: #c5d4c9;
+      --warm: #c45c26;
+      --muted: #4a5c52;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #d4e8dc 0%, transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, #f0e2d4 0%, transparent 50%),
+        linear-gradient(180deg, #f4f7f4 0%, var(--paper) 40%, #dfe9e2 100%);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 40rem; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+    .brand {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: clamp(2.4rem, 7vw, 3.4rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin: 0 0 0.35rem;
+      line-height: 1.05;
+      animation: rise 0.7s ease both;
+    }
+    h2 {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin: 2rem 0 0.6rem;
+      letter-spacing: -0.02em;
+    }
+    .lede {
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin: 0 0 1.5rem;
+      max-width: 34rem;
+      animation: rise 0.7s 0.08s ease both;
+    }
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 1.25rem 0 0.5rem;
+      animation: rise 0.7s 0.16s ease both;
+    }
+    a.btn {
+      display: inline-block;
+      background: var(--moss);
+      color: #f5faf7;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 0.85rem 1.25rem;
+      border-radius: 0.35rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    a.btn:hover { background: var(--moss-deep); transform: translateY(-1px); }
+    a.ghost {
+      display: inline-block;
+      color: var(--moss-deep);
+      font-weight: 600;
+      padding: 0.85rem 0.4rem;
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+    ul { padding-left: 1.15rem; margin: 0.4rem 0 0; color: var(--muted); }
+    li { margin: 0.35rem 0; }
+    .price {
+      display: grid;
+      gap: 0.85rem;
+      margin: 1rem 0 0;
+    }
+    .tier {
+      border-left: 3px solid var(--moss);
+      padding: 0.65rem 0 0.65rem 1rem;
+      background: rgba(255,255,255,0.45);
+    }
+    .tier strong { display: block; font-size: 1.05rem; color: var(--ink); }
+    .amt { color: var(--warm); font-weight: 700; }
+    .note {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--mist);
+    }
+    .fine { font-size: 0.85rem; color: #6a7a70; margin-top: 1.25rem; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="brand">GridVox</p>
+    <p class="lede">Private local AI on <em>your</em> computer. We stay on a screen-share until your first chat works. The software stack stays free — you pay for a human, not a license key.</p>
+
+    <div class="cta-row">
+      <a class="btn" href="mailto:support@gridvoxsystems.com?subject=Remote%20setup%20%E2%80%94%20Private%20local%20AI&body=Hi%20GridVox%2C%0A%0AI%20want%20remote%20setup.%0A%0AMy%20OS%20(Windows%2FMac%2FLinux)%3A%0ARough%20RAM%20%2F%20GPU%3A%0AUse%20case%20(chat%20only%20%2F%20PDFs%20%2F%20team)%3A%0A%0AThanks.">Email support@gridvoxsystems.com</a>
+      <a class="ghost" href="https://github.com/LaxmanByte/ollama-ultimate-stack">Prefer DIY? Free GitHub setup →</a>
+    </div>
+
+    <h2>What you get</h2>
+    <ul>
+      <li>Live remote session (screen-share)</li>
+      <li>Hardware check so we only install models that fit your PC</li>
+      <li>Full install of the free Ollama Ultimate Stack (Ollama + Open WebUI)</li>
+      <li>Wait until models finish downloading — you leave when chat works</li>
+      <li>Short walkthrough: chat, attach a file, stop/start later</li>
+    </ul>
+
+    <h2>Packages</h2>
+    <div class="price">
+      <div class="tier">
+        <strong>Solo machine — <span class="amt">$249</span></strong>
+        One PC or laptop. Remote setup until first successful chat. 7 days of email follow-up for install issues.
+      </div>
+      <div class="tier">
+        <strong>Business handoff — <span class="amt">$449</span></strong>
+        Everything in Solo, plus written handoff notes for your team, model choices explained in plain English, and 30 days of email support for this install.
+      </div>
+    </div>
+
+    <h2>Who this is for</h2>
+    <ul>
+      <li>You want ChatGPT-style AI <strong>on your machine</strong> — data stays local</li>
+      <li>You do not want to fight with Docker, PowerShell, or model names</li>
+      <li>Law, accounting, clinic, agency, or any work that should not go to a public chatbot</li>
+    </ul>
+
+    <h2>What this is not</h2>
+    <ul>
+      <li>Not a license for Ollama or Open WebUI — those stay free upstream</li>
+      <li>Not a white-label / rebranded chat product (Open WebUI branding stays)</li>
+      <li>Not a promise that a tiny laptop runs huge models — we size to your hardware honestly</li>
+    </ul>
+
+    <p class="note">Book by email: <a href="mailto:support@gridvoxsystems.com">support@gridvoxsystems.com</a><br>
+    Subject line tip: <strong>Remote setup — Private local AI</strong></p>
+    <p class="fine">Free DIY path: clone <a href="https://github.com/LaxmanByte/ollama-ultimate-stack">ollama-ultimate-stack</a>, run <code>setup.cmd</code> (Windows) or <code>bash setup.sh</code> (Mac/Linux).</p>
+  </div>
+</body>
+</html>

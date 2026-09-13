@@ -13,13 +13,7 @@ You do not need to know Intel vs ARM or which model to pick. Setup will not over
 
 Advanced (optional): `check-hardware.cmd` / `bash check-hardware.sh` alone, then `install.cmd` / `bash install.sh`.
 
-After setup finishes:
-
-| Surface | URL / command |
-|---------|----------------|
-| Web chat | http://localhost:3000 |
-| API | http://localhost:11434 |
-| Terminal | `make chat` |
+Need a human to install it on a screen-share? See [docs/remote-setup.html](docs/remote-setup.html) ($249 solo / $449 business) or email [support@gridvoxsystems.com](mailto:support@gridvoxsystems.com).
 
 ---
 
@@ -344,4 +338,8 @@ docker exec ollama ollama list
 
 ## Support
 
-Need help installing? Contact [support@gridvoxsystems.com](mailto:support@gridvoxsystems.com) for remote setup services.
+- Free DIY: [README setup](README.md) — `setup.cmd` / `bash setup.sh`
+- Stuck? Email [support@gridvoxsystems.com](mailto:support@gridvoxsystems.com)
+- Paid remote setup (screen-share until first chat): [docs/remote-setup.html](docs/remote-setup.html) — **$249** solo / **$449** business handoff
+
+You are not buying Ollama or Open WebUI. Those stay free. Open WebUI branding stays.

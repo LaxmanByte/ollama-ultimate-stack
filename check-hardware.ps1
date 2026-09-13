@@ -403,6 +403,7 @@ Write-Host "  Step 3 - install:"
 Write-Host "    " -NoNewline; Write-Color "powershell -ExecutionPolicy Bypass -File .\install.ps1" "Cyan"
 Write-Host ""
 Write-Host '  Optional help (the stack stays free):  support@gridvoxsystems.com'
+Write-Host '  Paid remote setup: docs/remote-setup.html  ($249 solo / $449 business)'
 Write-Host ""
 Write-Host "=============================================================================="
 Write-Host "  Diagnostic complete."

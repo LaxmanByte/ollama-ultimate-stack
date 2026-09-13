@@ -3,33 +3,93 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ollama Ultimate Stack</title>
+  <title>Ollama Ultimate Stack · GridVox</title>
+  <meta name="description" content="Free local AI stack. Auto setup for Windows, Mac, Linux. Optional paid remote help from GridVox.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Fraunces:opsz,wght@9..144,700&display=swap" rel="stylesheet">
   <style>
-    :root { color-scheme: dark; }
+    :root {
+      --ink: #0e1412;
+      --moss: #1f6b4a;
+      --muted: #4a5c52;
+      --paper: #e8f0ea;
+    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       min-height: 100vh;
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1000px 500px at 0% 0%, #d4e8dc, transparent 60%),
+        linear-gradient(165deg, #f6faf7, var(--paper));
       display: grid;
       place-items: center;
-      font-family: system-ui, sans-serif;
-      background: #111;
-      color: #f4f4f4;
+      padding: 2rem 1.25rem;
     }
-    main { max-width: 36rem; padding: 2rem; text-align: center; }
-    h1 { font-size: 1.75rem; font-weight: 650; margin: 0 0 0.75rem; }
-    p { margin: 0.5rem 0; line-height: 1.5; color: #cfcfcf; }
-    a { color: #8ec8ff; }
-    .sub { font-size: 1rem; }
-    .quiet { font-size: 0.9rem; color: #9a9a9a; }
+    main { max-width: 36rem; text-align: left; }
+    .brand {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: clamp(2.2rem, 6vw, 3rem);
+      margin: 0 0 0.5rem;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      animation: rise 0.65s ease both;
+    }
+    .sub {
+      color: var(--muted);
+      font-size: 1.08rem;
+      margin: 0 0 1.25rem;
+      animation: rise 0.65s 0.08s ease both;
+    }
+    .steps {
+      color: var(--muted);
+      margin: 0 0 1.5rem;
+      padding-left: 1.1rem;
+      animation: rise 0.65s 0.14s ease both;
+    }
+    .steps li { margin: 0.35rem 0; }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1rem;
+      align-items: center;
+      animation: rise 0.65s 0.2s ease both;
+    }
+    a.btn {
+      background: var(--moss);
+      color: #f4faf7;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 0.8rem 1.15rem;
+      border-radius: 0.35rem;
+    }
+    a.btn:hover { filter: brightness(0.95); }
+    a.link { color: var(--moss); font-weight: 600; }
+    .quiet { margin-top: 1.5rem; font-size: 0.92rem; color: #6a7a70; animation: rise 0.65s 0.28s ease both; }
+    code { font-size: 0.9em; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: none; }
+    }
   </style>
 </head>
 <body>
   <main>
-    <h1>Free self-hosted AI stack</h1>
-    <p class="sub">Ollama + Open WebUI. Clone, then run setup — it detects Windows / Mac / Linux and Intel or ARM for you. Wait until models finish. Chat in the browser. No license key.</p>
-    <p class="quiet">Windows: double-click setup.cmd &nbsp;·&nbsp; Mac / Linux: bash setup.sh &nbsp;·&nbsp; then http://localhost:3000</p>
-    <p><a href="https://github.com/LaxmanByte/ollama-ultimate-stack">github.com/LaxmanByte/ollama-ultimate-stack</a></p>
-    <p class="quiet">Need help installing? Remote setup — contact <a href="mailto:support@gridvoxsystems.com">support@gridvoxsystems.com</a></p>
+    <h1 class="brand">Ollama Ultimate Stack</h1>
+    <p class="sub">Free ChatGPT-style AI on your computer. Setup detects Windows, Mac, or Linux — and Intel or ARM — for you. No license key.</p>
+    <ol class="steps">
+      <li>Clone the GitHub repo</li>
+      <li>Windows: double-click <code>setup.cmd</code> · Mac/Linux: <code>bash setup.sh</code></li>
+      <li>Wait for <strong>ALL MODELS DOWNLOADED SUCCESSFULLY</strong></li>
+      <li>Open <a class="link" href="http://localhost:3000">http://localhost:3000</a></li>
+    </ol>
+    <div class="row">
+      <a class="btn" href="https://github.com/LaxmanByte/ollama-ultimate-stack">Get the free repo</a>
+      <a class="link" href="remote-setup.html">Want a human to install it? Remote setup →</a>
+    </div>
+    <p class="quiet">Optional paid help from GridVox · <a class="link" href="mailto:support@gridvoxsystems.com">support@gridvoxsystems.com</a></p>
   </main>
 </body>
 </html>

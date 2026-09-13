@@ -1,0 +1,65 @@
+GridVox — outreach copy (private local AI remote setup)
+=======================================================
+
+Use support@gridvoxsystems.com for all replies.
+
+----------------------------------------------------------------------
+A) Short email / LinkedIn message (copy-paste)
+----------------------------------------------------------------------
+
+Subject: Private AI on your PC (no cloud, no monthly ChatGPT bill)
+
+Hi {Name},
+
+I help small firms put a ChatGPT-style assistant on their own computer —
+so drafts and documents stay local.
+
+The software is free and open (Ollama + Open WebUI). What you pay for is
+a live remote session: I check your hardware, install everything, wait
+until models finish, and stay until your first chat works.
+
+Solo machine: $249
+Business handoff (notes + 30-day email): $449
+
+If useful, reply with your OS and rough RAM — I’ll tell you honestly
+whether your machine can run it well.
+
+— GridVox
+support@gridvoxsystems.com
+
+----------------------------------------------------------------------
+B) Reply when someone finds the free GitHub repo and is stuck
+----------------------------------------------------------------------
+
+Subject: Re: install help
+
+Happy to help two ways:
+
+1) Free DIY — run setup.cmd (Windows) or bash setup.sh (Mac/Linux),
+   leave the window open until ALL MODELS DOWNLOADED SUCCESSFULLY,
+   then open http://localhost:3000
+   Guide: https://github.com/LaxmanByte/ollama-ultimate-stack
+
+2) Paid remote setup — I screen-share and finish it with you
+   ($249 solo / $449 business handoff).
+   Details: https://laxmanbyte.github.io/ollama-ultimate-stack/remote-setup.html
+   (or reply here and we’ll book a time)
+
+— support@gridvoxsystems.com
+
+----------------------------------------------------------------------
+C) MSP / bookkeeper / IT partner one-liner
+----------------------------------------------------------------------
+
+If a client asks for “private ChatGPT” or refuses to paste into the
+cloud, we remote-install a free local stack on their machine and hand
+it off. You keep the client relationship; we do the AI install.
+Referral welcome — support@gridvoxsystems.com
+
+----------------------------------------------------------------------
+D) What we never claim
+----------------------------------------------------------------------
+
+- We do not sell Ollama or Open WebUI (those stay free upstream).
+- We do not strip Open WebUI branding / white-label the chat UI.
+- We do not promise big models on weak hardware — we size honestly.
