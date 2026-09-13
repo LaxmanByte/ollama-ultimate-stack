@@ -24,6 +24,7 @@ or Intel vs Apple Silicon / ARM. Setup detects that for you.
 
 Stuck or want a human on screen-share?
   Email support@gridvoxsystems.com
-  Offer: docs/remote-setup.html  ($249 solo / $449 business handoff)
+  Offer: docs/remote-setup.html
+  $249 solo / $449 business / +$497 private documents add-on
 
 Free path always works without paying.

@@ -141,9 +141,9 @@ make info                   URLs and tips
 | Free DIY | Clone → `setup.cmd` / `bash setup.sh` → wait for models → http://localhost:3000 |
 | [GitHub Issues](https://github.com/LaxmanByte/ollama-ultimate-stack/issues) | Bugs and install failures |
 | Email [support@gridvoxsystems.com](mailto:support@gridvoxsystems.com) | Short questions |
-| **[Remote setup (paid)](docs/remote-setup.html)** | Screen-share until first chat works — **$249** solo / **$449** business handoff |
+| **[Remote setup (paid)](docs/remote-setup.html)** | Door: **$249** solo / **$449** business · optional **+$497** private documents |
 
-The stack stays **free and MIT**. Remote setup is optional human help, not a software license. Open WebUI branding stays. You are not buying Ollama or Open WebUI.
+The stack stays **free and MIT**. Paid help is a human on screen-share, not a software license. Open WebUI branding stays. You are not buying Ollama or Open WebUI.
 
 A GUI one-click installer (no typing) is on the roadmap — not for sale yet. Waitlist: email [support@gridvoxsystems.com](mailto:support@gridvoxsystems.com) with subject **one-click waitlist**.
 

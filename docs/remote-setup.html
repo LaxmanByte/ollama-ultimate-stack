@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Private Local AI — Remote Setup | GridVox</title>
-  <meta name="description" content="Screen-share install of private local AI on your PC. Free open stack. You pay for a human until chat works. support@gridvoxsystems.com">
+  <meta name="description" content="Remote install of private local AI on your PC. Free open stack. You pay for a human until chat works. Optional document Q&amp;A add-on. support@gridvoxsystems.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,500;0,9..40,700;1,9..40,500&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
@@ -92,8 +92,18 @@
       padding: 0.65rem 0 0.65rem 1rem;
       background: rgba(255,255,255,0.45);
     }
+    .tier.featured { border-left-color: var(--warm); background: rgba(255,255,255,0.7); }
     .tier strong { display: block; font-size: 1.05rem; color: var(--ink); }
     .amt { color: var(--warm); font-weight: 700; }
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--moss-deep);
+      margin-bottom: 0.25rem;
+    }
     .note {
       font-size: 0.92rem;
       color: var(--muted);
@@ -111,51 +121,60 @@
 <body>
   <div class="wrap">
     <p class="brand">GridVox</p>
-    <p class="lede">Private local AI on <em>your</em> computer. We stay on a screen-share until your first chat works. The software stack stays free — you pay for a human, not a license key.</p>
+    <p class="lede">Private ChatGPT-style AI on <em>your</em> computer. You pay for a live remote install — not a software license. The stack stays free and open. We leave when your first chat works.</p>
 
     <div class="cta-row">
-      <a class="btn" href="mailto:support@gridvoxsystems.com?subject=Remote%20setup%20%E2%80%94%20Private%20local%20AI&body=Hi%20GridVox%2C%0A%0AI%20want%20remote%20setup.%0A%0AMy%20OS%20(Windows%2FMac%2FLinux)%3A%0ARough%20RAM%20%2F%20GPU%3A%0AUse%20case%20(chat%20only%20%2F%20PDFs%20%2F%20team)%3A%0A%0AThanks.">Email support@gridvoxsystems.com</a>
-      <a class="ghost" href="https://github.com/LaxmanByte/ollama-ultimate-stack">Prefer DIY? Free GitHub setup →</a>
+      <a class="btn" href="mailto:support@gridvoxsystems.com?subject=Book%20remote%20setup%20%E2%80%94%20GridVox&body=Hi%20GridVox%2C%0A%0AI%20want%20to%20book%20remote%20setup.%0A%0APackage%20(Solo%20%24249%20%2F%20Business%20%24449%20%2F%20%2B%20Documents%20add-on)%3A%0AOS%3A%0ARAM%20%2F%20GPU%20(if%20known)%3A%0AUse%20case%3A%0A%0AThanks.">Book by email</a>
+      <a class="ghost" href="https://github.com/LaxmanByte/ollama-ultimate-stack">Comfortable with setup.cmd? Free DIY →</a>
     </div>
 
-    <h2>What you get</h2>
-    <ul>
-      <li>Live remote session (screen-share)</li>
-      <li>Hardware check so we only install models that fit your PC</li>
-      <li>Full install of the free Ollama Ultimate Stack (Ollama + Open WebUI)</li>
-      <li>Wait until models finish downloading — you leave when chat works</li>
-      <li>Short walkthrough: chat, attach a file, stop/start later</li>
-    </ul>
-
-    <h2>Packages</h2>
+    <h2>Step 1 — Get chat working (door)</h2>
     <div class="price">
       <div class="tier">
-        <strong>Solo machine — <span class="amt">$249</span></strong>
-        One PC or laptop. Remote setup until first successful chat. 7 days of email follow-up for install issues.
+        <span class="tag">Most first buyers</span>
+        <strong>Solo remote setup — <span class="amt">$249</span></strong>
+        Screen-share on one PC. Hardware check, install free Ollama + Open WebUI, download models that fit, stay until you send “Hello.” 7 days email for install issues.
       </div>
-      <div class="tier">
+      <div class="tier featured">
+        <span class="tag">Small firms / teams</span>
         <strong>Business handoff — <span class="amt">$449</span></strong>
-        Everything in Solo, plus written handoff notes for your team, model choices explained in plain English, and 30 days of email support for this install.
+        Everything in Solo, plus plain-English notes for your team, which model to use when, and 30 days email support for this install.
+      </div>
+    </div>
+
+    <h2>Step 2 — Ask your own files (optional add-on)</h2>
+    <div class="price">
+      <div class="tier">
+        <span class="tag">After chat works</span>
+        <strong>Private documents — <span class="amt">+$497</span></strong>
+        Wire document chat on the same machine (PDFs / Word / folders you choose). Short training so staff can attach files safely. Best for offices that must not paste client work into public ChatGPT.
       </div>
     </div>
 
     <h2>Who this is for</h2>
     <ul>
-      <li>You want ChatGPT-style AI <strong>on your machine</strong> — data stays local</li>
-      <li>You do not want to fight with Docker, PowerShell, or model names</li>
-      <li>Law, accounting, clinic, agency, or any work that should not go to a public chatbot</li>
+      <li>Owners and staff who will <strong>not</strong> run Docker or PowerShell themselves</li>
+      <li>Work where drafts and files should stay on the office PC (legal, accounting, clinic, agency, NDA work)</li>
+      <li>Anyone who tried free guides and still does not have a working chat</li>
     </ul>
 
-    <h2>What this is not</h2>
+    <h2>Who this is not for</h2>
     <ul>
-      <li>Not a license for Ollama or Open WebUI — those stay free upstream</li>
-      <li>Not a white-label / rebranded chat product (Open WebUI branding stays)</li>
-      <li>Not a promise that a tiny laptop runs huge models — we size to your hardware honestly</li>
+      <li>Hobbyists who enjoy tinkering — use the free GitHub setup</li>
+      <li>Buyers who want a white-label “GridVox ChatGPT” UI (Open WebUI branding stays)</li>
+      <li>Enterprise compliance builds with air-gap audits — that is a custom quote, not these packages</li>
     </ul>
 
-    <p class="note">Book by email: <a href="mailto:support@gridvoxsystems.com">support@gridvoxsystems.com</a><br>
-    Subject line tip: <strong>Remote setup — Private local AI</strong></p>
-    <p class="fine">Free DIY path: clone <a href="https://github.com/LaxmanByte/ollama-ultimate-stack">ollama-ultimate-stack</a>, run <code>setup.cmd</code> (Windows) or <code>bash setup.sh</code> (Mac/Linux).</p>
+    <h2>What you are buying</h2>
+    <ul>
+      <li>A human on screen-share until the outcome works</li>
+      <li>Honest hardware sizing (we will say if a model will be slow or will not fit)</li>
+      <li>Not a license for Ollama or Open WebUI — those remain free upstream</li>
+    </ul>
+
+    <p class="note">Email <a href="mailto:support@gridvoxsystems.com">support@gridvoxsystems.com</a><br>
+    Subject: <strong>Book remote setup — GridVox</strong></p>
+    <p class="fine">Free DIY: <a href="https://github.com/LaxmanByte/ollama-ultimate-stack">github.com/LaxmanByte/ollama-ultimate-stack</a> → <code>setup.cmd</code> or <code>bash setup.sh</code> → wait for <strong>ALL MODELS DOWNLOADED SUCCESSFULLY</strong> → http://localhost:3000</p>
   </div>
 </body>
 </html>

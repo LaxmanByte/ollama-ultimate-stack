@@ -13,7 +13,7 @@ You do not need to know Intel vs ARM or which model to pick. Setup will not over
 
 Advanced (optional): `check-hardware.cmd` / `bash check-hardware.sh` alone, then `install.cmd` / `bash install.sh`.
 
-Need a human to install it on a screen-share? See [docs/remote-setup.html](docs/remote-setup.html) ($249 solo / $449 business) or email [support@gridvoxsystems.com](mailto:support@gridvoxsystems.com).
+Need a human to install it on a screen-share? See [docs/remote-setup.html](docs/remote-setup.html) ($249 solo / $449 business / +$497 documents) or email [support@gridvoxsystems.com](mailto:support@gridvoxsystems.com).
 
 ---
 
@@ -340,6 +340,6 @@ docker exec ollama ollama list
 
 - Free DIY: [README setup](README.md) — `setup.cmd` / `bash setup.sh`
 - Stuck? Email [support@gridvoxsystems.com](mailto:support@gridvoxsystems.com)
-- Paid remote setup (screen-share until first chat): [docs/remote-setup.html](docs/remote-setup.html) — **$249** solo / **$449** business handoff
+- Paid remote setup (screen-share until first chat): [docs/remote-setup.html](docs/remote-setup.html) — **$249** solo / **$449** business · optional **+$497** private documents
 
 You are not buying Ollama or Open WebUI. Those stay free. Open WebUI branding stays.
