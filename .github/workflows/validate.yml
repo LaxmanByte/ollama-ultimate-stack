@@ -16,8 +16,11 @@ jobs:
         run: |
           bash -n install.sh
           bash -n update.sh
+          bash -n check-hardware.sh
+          bash -n hw-check.sh
+          bash -n scripts/check-hardware.sh
           sh -n scripts/pull-models.sh
           sh -n scripts/print-info.sh
       - name: No license gate
         run: |
-          ! grep -E 'license-checker|LICENSE_SERVER_URL|SKIP_LICENSE_CHECK|LICENSE_KEY' docker-compose.yml docker-compose.gpu.yml Makefile install.sh install.ps1 update.sh update.ps1 scripts/print-info.sh .env.example
+          ! grep -E 'license-checker|LICENSE_SERVER_URL|SKIP_LICENSE_CHECK|LICENSE_KEY' docker-compose.yml docker-compose.gpu.yml Makefile install.sh install.ps1 update.sh update.ps1 check-hardware.ps1 scripts/check-hardware.sh scripts/print-info.sh .env.example

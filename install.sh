@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # =============================================================================
 # OLLAMA ULTIMATE STACK — one-command installer
-# Detects OS, installs Docker if missing, selects a RAM profile, starts stack.
+# Detects OS, runs check-hardware if needed, installs Docker if missing,
+# selects a RAM profile, starts stack. Does not overwrite a custom .env.
 # Usage: bash install.sh
 # =============================================================================
 
@@ -28,6 +29,35 @@ elif [ "${OSTYPE:-}" = "msys" ] || [ "${OSTYPE:-}" = "cygwin" ] || [ "${OSTYPE:-
 fi
 
 echo "Detected OS: $OS"
+echo ""
+echo "Step 1 was clone. Step 2 is the hardware check. Step 3 is this installer."
+echo ""
+
+run_hardware_check() {
+    if [ -x "$ROOT/scripts/check-hardware.sh" ] || [ -f "$ROOT/scripts/check-hardware.sh" ]; then
+        bash "$ROOT/scripts/check-hardware.sh"
+        return $?
+    fi
+    if [ -f "$ROOT/check-hardware.sh" ]; then
+        bash "$ROOT/check-hardware.sh"
+        return $?
+    fi
+    return 0
+}
+
+if [ ! -f .hardware-profile ]; then
+    echo "Hardware profile not found — running diagnostic first (no Docker required)..."
+    echo ""
+    run_hardware_check || true
+    echo ""
+fi
+
+hw_get() {
+    local key="$1"
+    [ -f .hardware-profile ] || return 0
+    awk -F= -v k="$key" '$1==k {sub(/^[^=]+=/,""); print; exit}' .hardware-profile
+}
+
 echo ""
 
 install_docker_linux() {
@@ -101,7 +131,7 @@ echo ""
 
 mkdir -p projects uploads scripts
 
-chmod +x install.sh update.sh scripts/*.sh 2>/dev/null || true
+chmod +x install.sh update.sh check-hardware.sh scripts/*.sh 2>/dev/null || true
 
 detect_ram_gb() {
     if [ -f /proc/meminfo ]; then
@@ -118,18 +148,54 @@ detect_ram_gb() {
     echo 16
 }
 
+apply_hw_model_overrides() {
+    [ -f .hardware-profile ] || return 0
+    local primary research fallback embedding
+    primary="$(hw_get PRIMARY_MODEL)"
+    research="$(hw_get RESEARCH_MODEL)"
+    fallback="$(hw_get FALLBACK_MODEL)"
+    embedding="$(hw_get EMBEDDING_MODEL)"
+    tmp="$(mktemp)"
+    awk -v p="$primary" -v r="$research" -v f="$fallback" -v e="$embedding" '
+        BEGIN { done_p=0; done_r=0; done_f=0; done_e=0 }
+        /^PRIMARY_MODEL=/ { if (p != "") { print "PRIMARY_MODEL=" p; done_p=1; next } }
+        /^RESEARCH_MODEL=/ { if (r != "") { print "RESEARCH_MODEL=" r; done_r=1; next } }
+        /^FALLBACK_MODEL=/ { if (f != "") { print "FALLBACK_MODEL=" f; done_f=1; next } }
+        /^EMBEDDING_MODEL=/ { if (e != "") { print "EMBEDDING_MODEL=" e; done_e=1; next } }
+        { print }
+        END {
+            if (p != "" && !done_p) print "PRIMARY_MODEL=" p
+            if (r != "" && !done_r) print "RESEARCH_MODEL=" r
+            if (f != "" && !done_f) print "FALLBACK_MODEL=" f
+            if (e != "" && !done_e) print "EMBEDDING_MODEL=" e
+        }
+    ' .env > "$tmp"
+    mv "$tmp" .env
+}
+
 if [ ! -f .env ]; then
-    RAM_GB="$(detect_ram_gb)"
-    if [ "$RAM_GB" -le 10 ]; then
-        PROFILE="profiles/8gb.env"
-    elif [ "$RAM_GB" -le 24 ]; then
-        PROFILE="profiles/16gb.env"
-    else
-        PROFILE="profiles/32gb.env"
+    HW_SUPPORTED="$(hw_get SUPPORTED)"
+    if [ "$HW_SUPPORTED" = "0" ]; then
+        echo "Hardware check marked this machine UNSUPPORTED (<8GB RAM)."
+        echo "The stack will not start. Upgrade RAM, or email barrelaxman@gmail.com for remote setup."
+        exit 1
     fi
-    echo "Detected ~${RAM_GB}GB RAM — using $PROFILE"
+
+    PROFILE="$(hw_get PROFILE_FILE)"
+    RAM_GB="$(hw_get RAM_GB_INT)"
+    if [ -z "$PROFILE" ] || [ ! -f "$PROFILE" ]; then
+        RAM_GB="$(detect_ram_gb)"
+        if [ "$RAM_GB" -le 10 ]; then
+            PROFILE="profiles/8gb.env"
+        elif [ "$RAM_GB" -le 24 ]; then
+            PROFILE="profiles/16gb.env"
+        else
+            PROFILE="profiles/32gb.env"
+        fi
+    fi
+    echo "Using $PROFILE (detected ~${RAM_GB:-?}GB RAM from hardware check)"
     {
-        echo "# Auto-selected by install.sh (${RAM_GB}GB RAM)"
+        echo "# Auto-selected by check-hardware + install.sh (${RAM_GB:-?}GB RAM)"
         echo "OLLAMA_PORT=11434"
         echo "WEBUI_PORT=3000"
         echo "WEBUI_AUTH=false"
@@ -139,14 +205,18 @@ if [ ! -f .env ]; then
         echo "OLLAMA_KEEP_ALIVE=30m"
         cat "$PROFILE"
     } > .env
+    apply_hw_model_overrides
+    echo "Primary model for this machine: $(hw_get PRIMARY_MODEL)"
 elif [ ! -s .env ]; then
     cp .env.example .env
+else
+    echo "Keeping existing .env (custom values not overwritten)."
 fi
 
 echo ""
 echo "Hardware notes:"
 echo "  - 8GB cannot run 24B models (use profiles/8gb.env)."
-echo "  - 16GB default may struggle with Devstral 24B without a GPU."
+echo "  - 16GB RAM, no GPU: 7B ok, 14B risky, 24B will crash."
 echo "  - Devstral 24B really wants ~32GB RAM or a 4090-class GPU."
 echo ""
 

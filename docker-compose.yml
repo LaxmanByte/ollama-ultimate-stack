@@ -1,7 +1,7 @@
 # =============================================================================
 # OLLAMA ULTIMATE STACK
 # Local AI: Ollama + Open WebUI (RAG, file upload) + one-time model puller
-# Clone, run install.sh / install.ps1, open http://localhost:3000
+# Clone, run check-hardware, then install.sh / install.ps1, open http://localhost:3000
 # =============================================================================
 
 services:

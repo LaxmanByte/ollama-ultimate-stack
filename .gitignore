@@ -1,7 +1,12 @@
 # Client-local secrets and hardware overrides (update.sh preserves these)
 .env.local
 .env.client
+.hardware-profile
 *.bak
+
+# Operator notes / duplicate downloads — not part of the public stack
+STRATEGY-MONETIZATION.md
+install (1).sh
 
 # Uploaded / mounted working files
 projects/*

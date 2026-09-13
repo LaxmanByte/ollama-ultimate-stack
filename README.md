@@ -2,7 +2,7 @@
 
 Free, self-hosted AI on your machine: **Ollama + Open WebUI + RAG + automatic model pull**.
 
-No subscription. No API keys. No license key. Clone, run the installer, open a browser.
+No subscription. No API keys. No license key. Clone, run the hardware check, then the installer, open a browser.
 
 **WebUI:** http://localhost:3000  
 **API:** http://localhost:11434
@@ -16,23 +16,31 @@ Browser  →  Open WebUI (:3000)  →  Ollama (:11434)
 
 ## Quick start
 
+**Step 1 — clone. Step 2 — hardware check. Step 3 — install.**
+
+The hardware check does **not** need Docker. It prints exact RAM/CPU/GPU, which models will **RUN / SLOW / CRASH** on this machine, auto-selects the 8GB / 16GB / 32GB profile, and writes `.hardware-profile` so the installer can reuse it without overwriting a custom `.env`.
+
 ### Linux / macOS / WSL
 
 ```bash
 git clone https://github.com/LaxmanByte/ollama-ultimate-stack.git
 cd ollama-ultimate-stack
+bash scripts/check-hardware.sh    # or: bash check-hardware.sh
 bash install.sh
 ```
 
-### Windows (PowerShell)
+### Windows (PowerShell — no bash required)
 
 ```powershell
 git clone https://github.com/LaxmanByte/ollama-ultimate-stack.git
 cd ollama-ultimate-stack
+powershell -ExecutionPolicy Bypass -File .\check-hardware.ps1
 powershell -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
-The installer detects OS and RAM, installs Docker if missing, generates `WEBUI_SECRET_KEY`, enables the NVIDIA GPU overlay when `nvidia-smi` is present, starts the stack, and follows model downloads. First run is typically 15–60 minutes. After that, open http://localhost:3000.
+Double-click `check-hardware.cmd` if you want the diagnostic without typing. If you skip Step 2, `install.sh` / `install.ps1` run the check automatically.
+
+The installer installs Docker if missing, generates `WEBUI_SECRET_KEY`, enables the NVIDIA GPU overlay when `nvidia-smi` is present, starts the stack, and follows model downloads. First run is typically 15–60 minutes. After that, open http://localhost:3000.
 
 ## What you get
 
@@ -59,7 +67,14 @@ Default 16GB profile models (all open-weight, from `.env`):
 
 ## Hardware profiles
 
-`install.sh` / `install.ps1` pick a profile from installed RAM. Override anytime:
+`check-hardware` picks a profile from installed RAM (and VRAM):
+
+- **≤10GB RAM** → `profiles/8gb.env`
+- **≤24GB RAM** → `profiles/16gb.env`
+- **else** → `profiles/32gb.env`
+- **GPU-aware:** VRAM **< 8GB** (or no GPU) → do not treat `devstral:24b` as a daily driver. A 4090-class card (**≥24GB VRAM**) can run 24B even if system RAM is 16GB.
+
+Override anytime:
 
 ```bash
 cp profiles/8gb.env .env      # or 16gb.env / 32gb.env
@@ -67,17 +82,20 @@ cp profiles/8gb.env .env      # or 16gb.env / 32gb.env
 make update
 ```
 
-| Profile | Primary | Research | Context |
-|---------|---------|----------|---------|
+| Profile | Typical primary | Typical research | Context |
+|---------|-----------------|------------------|---------|
 | 8GB | `qwen2.5-coder:7b` | `deepseek-r1:8b` | 4k |
-| **16GB (default)** | `devstral:24b` | `deepseek-r1:14b` | 16k |
-| 32GB | `qwen3-coder:30b` | `deepseek-r1:32b` | 32k |
+| 16GB | `qwen2.5-coder:7b` without GPU; `devstral:24b` only if VRAM is enough | `deepseek-r1:14b` (risky on CPU) | 16k |
+| 32GB | `devstral:24b` on CPU; `qwen3-coder:30b` with 20GB+ VRAM | `deepseek-r1:32b` if it fits | 32k |
 
-**Honest hardware notes**
+The checker writes **PRIMARY / RESEARCH / FALLBACK for this machine** into `.hardware-profile`. A first-time installer copies the matching profile, then applies those model picks. An existing custom `.env` is never overwritten.
 
-- **8GB cannot run 24B.** The 8GB profile stays on 7B/8B models.
-- **16GB default may struggle without a GPU.** CPU-only 16GB often swaps or is very slow on 24B.
-- **Devstral 24B really wants ~32GB RAM or a 4090-class GPU.** If you have neither, use `profiles/8gb.env` or chat with `qwen2.5-coder:7b` (`make chat-fast`).
+**Honest hardware notes** (Ollama library sizes: `qwen2.5-coder:7b` 4.7GB, `deepseek-r1:14b` 9.0GB, `devstral:24b` ~14GB, `qwen3-coder:30b` 19GB, `nomic-embed-text` 274MB)
+
+- **8GB cannot run 24B.** The 8GB profile stays on 7B/8B.
+- **16GB RAM, no GPU:** 7B ok, 14B risky (SLOW / swap), **24B will crash**.
+- **Devstral 24B** is specified by Mistral for a **single RTX 4090 or a Mac with 32GB** unified memory.
+- **Windows + Docker Desktop / WSL2** typically reserves several GB on top of the model. Budget that tax before you pull 14B+.
 
 NVIDIA GPUs: if `nvidia-smi` exists, install enables `docker-compose.gpu.yml` automatically.
 
@@ -137,6 +155,7 @@ Then `make update` once. Watchtower checks hourly (use `120` in a lab). Compose/
 ## Commands
 
 ```text
+make check           Hardware diagnostic (no Docker required)
 make up              Start everything
 make down            Stop everything
 make chat            Terminal chat (coding model)
@@ -157,7 +176,7 @@ make info            Show connection URLs and guides
 make help            Show all commands
 ```
 
-Windows without Make: `.\install.ps1`, `.\update.ps1`, and `docker compose` as in [USAGE-GUIDE.md](USAGE-GUIDE.md).
+Windows without Make: `.\check-hardware.ps1`, `.\install.ps1`, `.\update.ps1`, and `docker compose` as in [USAGE-GUIDE.md](USAGE-GUIDE.md).
 
 ## Requirements
 

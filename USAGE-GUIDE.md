@@ -2,6 +2,16 @@
 
 Step-by-step for chat, files, RAG, Continue, Cline, and troubleshooting. Everything is local. No API keys. No license activation.
 
+**Order:** clone → `check-hardware` → `install.sh` / `install.ps1`. The check runs without Docker and writes `.hardware-profile`. The installer calls it automatically if you skipped it, and will not overwrite a custom `.env`.
+
+```bash
+# Linux / macOS / WSL
+bash scripts/check-hardware.sh
+
+# Windows (no bash)
+powershell -ExecutionPolicy Bypass -File .\check-hardware.ps1
+```
+
 After `bash install.sh` or `.\install.ps1`:
 
 | Surface | URL / command |
@@ -237,7 +247,8 @@ New machine:
 ```bash
 git clone https://github.com/LaxmanByte/ollama-ultimate-stack.git
 cd ollama-ultimate-stack
-bash install.sh          # or .\install.ps1
+bash scripts/check-hardware.sh    # Windows: .\check-hardware.ps1
+bash install.sh                   # Windows: .\install.ps1
 ```
 
 ---
