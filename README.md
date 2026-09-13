@@ -191,8 +191,8 @@ Windows without Make: `.\check-hardware.ps1`, `.\install.ps1`, `.\update.ps1`, a
 |---------|------|-------|
 | [GitHub Issues](https://github.com/LaxmanByte/ollama-ultimate-stack/issues) | Free | Bugs, install failures, hardware-check questions |
 | Email [barrelaxman@gmail.com](mailto:barrelaxman@gmail.com) | Free | Short install questions |
-| Remote setup (individual) | $200 | Screen-share install + hardware profile + first chat working |
-| Remote setup (business) | $500 | Same, plus multi-machine / team handoff |
+| Remote setup (individual) |  Screen-share install + hardware profile + first chat working |
+| Remote setup (business) |  Same, plus multi-machine / team handoff |
 
 The stack itself stays **free and MIT**. Paid options are optional help, not a license key.
 
