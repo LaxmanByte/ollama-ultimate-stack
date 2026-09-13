@@ -121,8 +121,21 @@ if ! docker compose version >/dev/null 2>&1; then
 fi
 
 if ! docker info >/dev/null 2>&1; then
+    echo "Docker is installed but the engine is not ready yet. Waiting..."
+    i=0
+    while [ "$i" -lt 30 ]; do
+        i=$((i + 1))
+        if docker info >/dev/null 2>&1; then
+            break
+        fi
+        echo "  Waiting for Docker engine... ($i/30)"
+        sleep 2
+    done
+fi
+
+if ! docker info >/dev/null 2>&1; then
     echo "Docker is installed but the daemon is not running."
-    echo "Start Docker Desktop / 'sudo service docker start', then re-run."
+    echo "Start Docker Desktop / 'sudo service docker start', then re-run: bash install.sh"
     exit 1
 fi
 
@@ -177,7 +190,7 @@ if [ ! -f .env ]; then
     HW_SUPPORTED="$(hw_get SUPPORTED)"
     if [ "$HW_SUPPORTED" = "0" ]; then
         echo "Hardware check marked this machine UNSUPPORTED (<8GB RAM)."
-        echo "The stack will not start. Upgrade RAM, or email barrelaxman@gmail.com for remote setup."
+        echo "The stack will not start. Upgrade RAM, or email support@gridvoxsystems.com for remote setup."
         exit 1
     fi
 
@@ -239,22 +252,42 @@ if command -v nvidia-smi >/dev/null 2>&1 && [ -f docker-compose.gpu.yml ]; then
     fi
 fi
 
-echo ""
-echo "Starting stack (first run downloads images + models; 15-60 minutes)..."
-echo ""
-
-docker compose "${COMPOSE_ARGS[@]}" up -d
-
-echo ""
-echo "Monitoring model downloads (Ctrl+C stops the log follow; containers keep running)..."
-echo ""
-
-docker compose "${COMPOSE_ARGS[@]}" logs -f model-puller || true
+WEBUI_PORT="$(awk -F= '/^WEBUI_PORT=/{print $2; exit}' .env 2>/dev/null || true)"
+OLLAMA_PORT="$(awk -F= '/^OLLAMA_PORT=/{print $2; exit}' .env 2>/dev/null || true)"
+WEBUI_PORT="${WEBUI_PORT:-3000}"
+OLLAMA_PORT="${OLLAMA_PORT:-11434}"
 
 echo ""
-echo "Installation complete."
-echo "  WebUI:  http://localhost:${WEBUI_PORT:-3000}"
-echo "  API:    http://localhost:${OLLAMA_PORT:-11434}"
+echo "Starting Ollama + Open WebUI..."
 echo ""
-echo "On other machines after you push changes:  bash update.sh"
+
+docker compose "${COMPOSE_ARGS[@]}" up -d ollama open-webui
+
+if grep -qE '^COMPOSE_PROFILES=.*auto-update' .env 2>/dev/null; then
+    docker compose "${COMPOSE_ARGS[@]}" --profile auto-update up -d watchtower || true
+fi
+
+echo ""
+echo "Downloading models now. Leave this window open."
+echo "Finished means you see: ALL MODELS DOWNLOADED SUCCESSFULLY"
+echo "First run is typically 15-60 minutes depending on your internet."
+echo ""
+
+docker rm -f ollama-model-puller >/dev/null 2>&1 || true
+
+if ! docker compose "${COMPOSE_ARGS[@]}" run --rm --name ollama-model-puller model-puller; then
+    echo ""
+    echo "Model download did not finish cleanly."
+    echo "Check your internet, then re-run ONLY the download:"
+    echo "  docker compose run --rm model-puller"
+    exit 1
+fi
+
+echo ""
+echo "Installation complete. Models are on disk. Chat is ready."
+echo "  WebUI:  http://localhost:${WEBUI_PORT}"
+echo "  API:    http://localhost:${OLLAMA_PORT}"
+echo ""
+echo "Open the WebUI URL, pick a model in the dropdown, and send a message."
+echo "Later updates:  bash update.sh"
 echo ""

@@ -1,8 +1,13 @@
 # Client-local secrets and hardware overrides (update.sh preserves these)
+.env
 .env.local
 .env.client
 .hardware-profile
 *.bak
+
+# Accidental local downloads — never commit
+Docker Desktop Installer.exe
+start
 
 # Operator notes / duplicate downloads — not part of the public stack
 STRATEGY-MONETIZATION.md

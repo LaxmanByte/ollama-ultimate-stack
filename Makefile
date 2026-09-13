@@ -2,8 +2,8 @@
 -include .env
 export
 
-PRIMARY_MODEL     ?= devstral:24b
-RESEARCH_MODEL    ?= deepseek-r1:14b
+PRIMARY_MODEL     ?= qwen2.5-coder:7b
+RESEARCH_MODEL    ?= deepseek-r1:8b
 FALLBACK_MODEL    ?= qwen2.5-coder:7b
 EMBEDDING_MODEL   ?= nomic-embed-text
 WEBUI_PORT        ?= 3000
@@ -86,6 +86,6 @@ help: ## Show this help
 	@echo ""
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-16s %s\n", $$1, $$2}'
 	@echo ""
-	@echo "Windows (no Make):  .\\check-hardware.ps1   .\\install.ps1   .\\update.ps1"
+	@echo "Windows (no Make):  check-hardware.cmd   install.cmd   .\\update.ps1"
 	@echo "WebUI: http://localhost:$(WEBUI_PORT)   API: http://localhost:$(OLLAMA_PORT)"
 	@echo ""

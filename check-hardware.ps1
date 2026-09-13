@@ -295,7 +295,7 @@ Write-Host "  GPU:              " -NoNewline; Write-Color $gpuName "Cyan"
 if ($gpuVramInt -gt 0) {
     Write-Host "  GPU VRAM:         " -NoNewline; Write-Color ("{0} GB" -f $gpuVramGb) "Cyan"
 }
-Write-Host "  Disk free ($sysDrive): " -NoNewline; Write-Color ("{0} GB" -f $diskFree) "Cyan"
+Write-Host ('  Disk free ({0}): ' -f $sysDrive) -NoNewline; Write-Color ("{0} GB" -f $diskFree) "Cyan"
 Write-Host "  Docker:           " -NoNewline; Write-Color $dockerVer "Cyan"
 Write-Host "  WSL:              " -NoNewline; Write-Color $(if ($wsl) { "Present" } else { "Not detected" }) "Cyan"
 Write-Host "  Memory tax:       " -NoNewline
@@ -338,15 +338,15 @@ foreach ($r in $rows) {
     Write-Host (" {0}" -f (Get-Note $r.K $r.V))
 }
 Write-Host ""
-Write-Host "  RUN = fits.  SLOW = CPU swap / offload (usable but painful).  CRASH = will not fit."
+Write-Host '  RUN = fits.  SLOW = CPU swap / offload (usable but painful).  CRASH = will not fit.'
 Write-Host ""
 
 Write-Host "RECOMMENDED FOR THIS MACHINE" -ForegroundColor White
 Write-Host "------------------------------------------------------------------------------"
-Write-Host "  PRIMARY  (coding):    " -NoNewline; Write-Color $primary "Green"
-Write-Host "  RESEARCH (reasoning): " -NoNewline; Write-Color $research "Green"
-Write-Host "  FALLBACK (fast):      " -NoNewline; Write-Color $fallback "Green"
-Write-Host "  EMBEDDING (RAG):      " -NoNewline; Write-Color $embedding "Green"
+Write-Host '  PRIMARY  (coding):    ' -NoNewline; Write-Color $primary "Green"
+Write-Host '  RESEARCH (reasoning): ' -NoNewline; Write-Color $research "Green"
+Write-Host '  FALLBACK (fast):      ' -NoNewline; Write-Color $fallback "Green"
+Write-Host '  EMBEDDING (RAG):      ' -NoNewline; Write-Color $embedding "Green"
 Write-Host ""
 
 if ($diskInt -lt 30) {
@@ -390,11 +390,11 @@ Set-Content -Path (Join-Path $PSScriptRoot ".hardware-profile") -Value $hw -Enco
 
 Write-Host "SAVED" -ForegroundColor White
 Write-Host "------------------------------------------------------------------------------"
-Write-Host "  Wrote .hardware-profile (profile $profileName, models above)."
+Write-Host ('  Wrote .hardware-profile (profile {0}, models above).' -f $profileName)
 if (Test-Path (Join-Path $PSScriptRoot ".env")) {
-    Write-Host "  Existing .env left untouched (custom / previous install)."
+    Write-Host '  Existing .env left untouched (custom / previous install).'
 } else {
-    Write-Host "  No .env yet - install.ps1 will create one from this profile."
+    Write-Host '  No .env yet - install.ps1 will create one from this profile.'
 }
 Write-Host ""
 Write-Host "NEXT" -ForegroundColor White
@@ -402,8 +402,7 @@ Write-Host "--------------------------------------------------------------------
 Write-Host "  Step 3 - install:"
 Write-Host "    " -NoNewline; Write-Color "powershell -ExecutionPolicy Bypass -File .\install.ps1" "Cyan"
 Write-Host ""
-Write-Host "  Optional paid help (the stack stays free):  barrelaxman@gmail.com"
-Write-Host "  Remote setup: `$200 individual / `$500 business"
+Write-Host '  Optional help (the stack stays free):  support@gridvoxsystems.com'
 Write-Host ""
 Write-Host "=============================================================================="
 Write-Host "  Diagnostic complete."

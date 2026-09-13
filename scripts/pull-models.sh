@@ -1,7 +1,8 @@
 #!/bin/sh
 # =============================================================================
 # OLLAMA MODEL AUTO-PULLER
-# Waits for Ollama, pulls the embedding model first (RAG), then chat models.
+# Waits for Ollama, then downloads the well-known open models from .env.
+# Embedding first, then chat models. Duplicate names are pulled once.
 # Each pull retries up to 3 times. One failed model does not skip the rest.
 # =============================================================================
 
@@ -9,9 +10,12 @@ echo "========================================"
 echo "  OLLAMA MODEL AUTO-PULLER"
 echo "========================================"
 echo ""
+echo "Leave this running. Large models take 15-60 minutes."
+echo "You are done when you see: ALL MODELS DOWNLOADED SUCCESSFULLY"
+echo ""
 echo "Waiting for Ollama service..."
 
-MAX_RETRIES=60
+MAX_RETRIES=90
 RETRY_COUNT=0
 OLLAMA_URL="${OLLAMA_HOST:-http://ollama:11434}"
 
@@ -27,6 +31,7 @@ while ! wait_for_ollama; do
     RETRY_COUNT=$((RETRY_COUNT + 1))
     if [ "$RETRY_COUNT" -ge "$MAX_RETRIES" ]; then
         echo "ERROR: Ollama service did not start within timeout"
+        echo "Start Docker, then re-run: docker compose run --rm model-puller"
         exit 1
     fi
     echo "  Waiting for Ollama... ($RETRY_COUNT/$MAX_RETRIES)"
@@ -36,23 +41,40 @@ done
 echo "Ollama is ready!"
 echo ""
 
-PRIMARY_MODEL="${PRIMARY_MODEL:-devstral:24b}"
-RESEARCH_MODEL="${RESEARCH_MODEL:-deepseek-r1:14b}"
+PRIMARY_MODEL="${PRIMARY_MODEL:-qwen2.5-coder:7b}"
+RESEARCH_MODEL="${RESEARCH_MODEL:-deepseek-r1:8b}"
 FALLBACK_MODEL="${FALLBACK_MODEL:-qwen2.5-coder:7b}"
 EMBEDDING_MODEL="${EMBEDDING_MODEL:-nomic-embed-text}"
 
-echo "Models to install:"
-echo "  Primary Coding:       $PRIMARY_MODEL"
-echo "  Research/Reasoning:   $RESEARCH_MODEL"
-echo "  Fallback (Fast):      $FALLBACK_MODEL"
-echo "  Embedding (RAG/docs): $EMBEDDING_MODEL"
+echo "Models to download (official Ollama library tags):"
+echo "  Primary coding:       $PRIMARY_MODEL"
+echo "  Research/reasoning:   $RESEARCH_MODEL"
+echo "  Fast fallback:        $FALLBACK_MODEL"
+echo "  Embeddings / files:   $EMBEDDING_MODEL"
 echo ""
 
 FAILED=0
+PULLED=" "
 
 pull_model() {
     model_name="$1"
     purpose="$2"
+
+    if [ -z "$model_name" ]; then
+        echo "SKIP: empty model name ($purpose)"
+        return 0
+    fi
+
+    case "$PULLED" in
+        *" $model_name "*)
+            echo "----------------------------------------"
+            echo "[$purpose] Already downloaded this run: $model_name"
+            echo "----------------------------------------"
+            echo ""
+            return 0
+            ;;
+    esac
+
     echo "----------------------------------------"
     echo "[$purpose] Pulling: $model_name"
     echo "----------------------------------------"
@@ -64,6 +86,7 @@ pull_model() {
         if ollama pull "$model_name"; then
             echo "SUCCESS: $model_name downloaded"
             echo ""
+            PULLED="$PULLED$model_name "
             return 0
         fi
         retry=$((retry + 1))
@@ -73,29 +96,20 @@ pull_model() {
 
     echo "WARNING: Could not download $model_name after $max_retry attempts"
     echo ""
+    FAILED=1
     return 1
 }
 
-# Embedding first so RAG/document chat works as soon as WebUI is used
-if ! pull_model "$EMBEDDING_MODEL" "RAG/Document Analysis"; then
-    FAILED=1
-fi
-
-if ! pull_model "$PRIMARY_MODEL" "Primary Coding"; then
-    FAILED=1
-fi
-
-if ! pull_model "$RESEARCH_MODEL" "Research/Reasoning"; then
-    FAILED=1
-fi
-
-if ! pull_model "$FALLBACK_MODEL" "Fast Fallback"; then
-    FAILED=1
-fi
+# Small embedding model first so file chat works as soon as WebUI is used
+pull_model "$EMBEDDING_MODEL" "File search / embeddings"
+pull_model "$PRIMARY_MODEL" "Primary coding"
+pull_model "$RESEARCH_MODEL" "Research / reasoning"
+pull_model "$FALLBACK_MODEL" "Fast fallback"
 
 echo "========================================"
 if [ "$FAILED" -eq 0 ]; then
     echo "  ALL MODELS DOWNLOADED SUCCESSFULLY"
+    echo "  Open http://localhost:${WEBUI_PORT:-3000} and chat."
 else
     echo "  DOWNLOAD FINISHED WITH WARNINGS"
     echo "  Re-run: docker compose run --rm model-puller"
@@ -105,8 +119,8 @@ echo ""
 echo "Installed models:"
 ollama list || true
 echo ""
-echo "Web chat + file upload:  http://localhost:${WEBUI_PORT:-3000}"
-echo "API endpoint:            http://localhost:${OLLAMA_PORT:-11434}"
+echo "Web chat:  http://localhost:${WEBUI_PORT:-3000}"
+echo "API:       http://localhost:${OLLAMA_PORT:-11434}"
 echo ""
 
 exit "$FAILED"

@@ -41,7 +41,7 @@ function Invoke-HardwareCheck {
 }
 
 if (-not (Test-Path (Join-Path $PSScriptRoot ".hardware-profile"))) {
-    Write-Host "Hardware profile not found — running diagnostic first (no Docker required)..."
+    Write-Host 'Hardware profile not found — running diagnostic first (no Docker required)...'
     Write-Host ""
     [void](Invoke-HardwareCheck)
     Write-Host ""
@@ -76,12 +76,8 @@ function Set-EnvModelOverrides {
 }
 
 function Test-DockerReady {
-    try {
-        docker info 2>$null | Out-Null
-        return $LASTEXITCODE -eq 0
-    } catch {
-        return $false
-    }
+    cmd /c "docker info >nul 2>&1"
+    return $LASTEXITCODE -eq 0
 }
 
 if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
@@ -89,8 +85,7 @@ if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
     if (Get-Command winget -ErrorAction SilentlyContinue) {
         winget install -e --id Docker.DockerDesktop --accept-package-agreements --accept-source-agreements
         Write-Host ""
-        Write-Host "Start Docker Desktop from the Start menu, wait until it is running, then re-run:"
-        Write-Host "  powershell -ExecutionPolicy Bypass -File .\install.ps1"
+        Write-Host "Start Docker Desktop from the Start menu, wait until it says Engine running, then double-click install.cmd"
         exit 1
     }
     Write-Host "Install Docker Desktop from https://www.docker.com/products/docker-desktop then re-run."
@@ -98,9 +93,18 @@ if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
 }
 
 if (-not (Test-DockerReady)) {
-    Write-Host "Docker is installed but the engine is not running."
-    Write-Host "Start Docker Desktop, wait for 'Engine running', then re-run this script."
-    exit 1
+    Write-Host "Docker is installed but the engine is not ready yet. Waiting..."
+    $ready = $false
+    for ($i = 1; $i -le 30; $i++) {
+        if (Test-DockerReady) { $ready = $true; break }
+        Write-Host "  Waiting for Docker engine... ($i/30)"
+        Start-Sleep -Seconds 2
+    }
+    if (-not $ready) {
+        Write-Host "Docker is installed but the engine is not running."
+        Write-Host "Start Docker Desktop, wait for 'Engine running', then double-click install.cmd"
+        exit 1
+    }
 }
 
 Write-Host "Docker: $(docker --version)"
@@ -116,8 +120,8 @@ Write-Host "Detected ~${ramGb}GB RAM"
 
 if (-not (Test-Path ".env")) {
     if ((Get-HardwareValue "SUPPORTED") -eq "0") {
-        Write-Host "Hardware check marked this machine UNSUPPORTED (<8GB RAM)."
-        Write-Host "The stack will not start. Upgrade RAM, or email barrelaxman@gmail.com for remote setup."
+        Write-Host 'Hardware check marked this machine UNSUPPORTED (<8GB RAM).'
+        Write-Host "The stack will not start. Upgrade RAM, or email support@gridvoxsystems.com for remote setup."
         exit 1
     }
     $profile = Get-HardwareValue "PROFILE_FILE"
@@ -127,7 +131,7 @@ if (-not (Test-Path ".env")) {
         elseif ([int]$ramGb -le 24) { $profile = "profiles\16gb.env" }
         else { $profile = "profiles\32gb.env" }
     }
-    Write-Host "Using $profile (from hardware check)"
+    Write-Host "Using $profile" '(from hardware check)'
     $header = @"
 # Auto-selected by check-hardware + install.ps1 (${ramGb}GB RAM)
 OLLAMA_PORT=11434
@@ -143,14 +147,14 @@ OLLAMA_KEEP_ALIVE=30m
     $picked = Get-HardwareValue "PRIMARY_MODEL"
     if ($picked) { Write-Host "Primary model for this machine: $picked" }
 } else {
-    Write-Host "Keeping existing .env (custom values not overwritten)."
+    Write-Host 'Keeping existing .env (custom values not overwritten).'
 }
 
 Write-Host ""
 Write-Host "Hardware notes:"
-Write-Host "  - 8GB cannot run 24B models (use profiles\8gb.env)."
-Write-Host "  - 16GB RAM, no GPU: 7B ok, 14B risky, 24B will crash."
-Write-Host "  - Devstral 24B really wants ~32GB RAM or a 4090-class GPU."
+Write-Host '  - 8GB cannot run 24B models (use profiles\8gb.env).'
+Write-Host '  - 16GB RAM, no GPU: 7B ok, 14B risky, 24B will crash.'
+Write-Host '  - Devstral 24B really wants ~32GB RAM or a 4090-class GPU.'
 Write-Host ""
 
 if (Select-String -Path ".env" -Pattern "WEBUI_SECRET_KEY=change-me-in-env-file" -Quiet) {
@@ -172,21 +176,45 @@ if (Get-Command nvidia-smi -ErrorAction SilentlyContinue) {
 }
 
 Write-Host ""
-Write-Host "Starting stack (first run downloads images + models; 15-60 minutes)..."
+Write-Host 'Starting Ollama + Open WebUI...'
 Write-Host ""
 
-docker compose @composeArgs up -d
+docker compose @composeArgs up -d ollama open-webui
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-Write-Host ""
-Write-Host "Monitoring model downloads (Ctrl+C stops the log follow; containers keep running)..."
-Write-Host ""
-docker compose @composeArgs logs -f model-puller
+if (Select-String -Path ".env" -Pattern "^COMPOSE_PROFILES=.*auto-update" -Quiet) {
+    docker compose @composeArgs --profile auto-update up -d watchtower | Out-Host
+}
 
 Write-Host ""
-Write-Host "Installation complete."
-Write-Host "  WebUI:  http://localhost:3000"
-Write-Host "  API:    http://localhost:11434"
+Write-Host 'Downloading models now. Leave this window open.'
+Write-Host 'Finished means you see: ALL MODELS DOWNLOADED SUCCESSFULLY'
+Write-Host 'First run is typically 15-60 minutes depending on your internet.'
 Write-Host ""
-Write-Host "On other machines after you push changes:  .\update.ps1"
+
+cmd /c "docker rm -f ollama-model-puller >nul 2>&1"
+
+docker compose @composeArgs run --rm --name ollama-model-puller model-puller
+if ($LASTEXITCODE -ne 0) {
+    Write-Host ""
+    Write-Host "Model download did not finish cleanly."
+    Write-Host "Check your internet, then re-run ONLY the download:"
+    Write-Host "  docker compose run --rm model-puller"
+    exit $LASTEXITCODE
+}
+
+$webPort = "3000"
+$apiPort = "11434"
+Get-Content ".env" | ForEach-Object {
+    if ($_ -match "^WEBUI_PORT=(.*)$") { $webPort = $Matches[1] }
+    if ($_ -match "^OLLAMA_PORT=(.*)$") { $apiPort = $Matches[1] }
+}
+
+Write-Host ""
+Write-Host "Installation complete. Models are on disk. Chat is ready."
+Write-Host "  WebUI:  http://localhost:$webPort"
+Write-Host "  API:    http://localhost:$apiPort"
+Write-Host ""
+Write-Host "Open the WebUI URL, pick a model in the dropdown, and send a message."
+Write-Host "Later updates:  .\update.ps1"
 Write-Host ""

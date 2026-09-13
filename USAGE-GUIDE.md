@@ -2,7 +2,9 @@
 
 Step-by-step for chat, files, RAG, Continue, Cline, and troubleshooting. Everything is local. No API keys. No license activation.
 
-**Order:** clone → `check-hardware` → `install.sh` / `install.ps1`. The check runs without Docker and writes `.hardware-profile`. The installer calls it automatically if you skipped it, and will not overwrite a custom `.env`.
+**Order:** clone → hardware check → install. Wait until the installer prints **`ALL MODELS DOWNLOADED SUCCESSFULLY`**, then open http://localhost:3000. Models stay on disk; the next start does not download them again.
+
+Windows: double-click `check-hardware.cmd`, then `install.cmd`. Linux / macOS / WSL: `bash check-hardware.sh` then `bash install.sh`. The installer calls the hardware check if you skipped it, and will not overwrite a custom `.env`.
 
 ```bash
 # Linux / macOS / WSL
@@ -27,11 +29,11 @@ After `bash install.sh` or `.\install.ps1`:
 ### Web (recommended)
 
 1. Open http://localhost:3000
-2. Choose a model in the dropdown (`devstral:24b`, `deepseek-r1:14b`, `qwen2.5-coder:7b`)
+2. Choose a model in the dropdown (whatever this machine downloaded — often `qwen2.5-coder:7b`)
 3. Type and send
 4. History is saved automatically (Docker volume `open_webui_data`)
 
-First boot may still be downloading models. If the dropdown is empty, wait and refresh, or run `make models`.
+First install waits until models are fully downloaded. If the dropdown is empty, run `docker compose run --rm model-puller`, wait for **ALL MODELS DOWNLOADED SUCCESSFULLY**, then refresh.
 
 ### Terminal
 
@@ -343,4 +345,4 @@ docker exec ollama ollama list
 
 ## Support
 
-Need help installing? Contact [barrelaxman@gmail.com](mailto:barrelaxman@gmail.com) for remote setup services.
+Need help installing? Contact [support@gridvoxsystems.com](mailto:support@gridvoxsystems.com) for remote setup services.
