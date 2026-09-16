@@ -9,7 +9,7 @@ Set-Location -Path $PSScriptRoot
 
 Write-Host ""
 Write-Host "=============================================================================="
-Write-Host "  OLLAMA ULTIMATE STACK — UPDATE"
+Write-Host "  OLLAMA ULTIMATE STACK - UPDATE"
 Write-Host "=============================================================================="
 Write-Host ""
 
@@ -39,10 +39,10 @@ if (Test-Path ".git") {
     if ($LASTEXITCODE -eq 0) {
         git pull --ff-only
     } else {
-        Write-Host "No git upstream — updating images only."
+        Write-Host "No git upstream - updating images only."
     }
 } else {
-    Write-Host "Not a git checkout — updating Docker images only."
+    Write-Host "Not a git checkout - updating Docker images only."
     Write-Host "To receive compose/script changes: clone https://github.com/LaxmanByte/ollama-ultimate-stack.git"
 }
 

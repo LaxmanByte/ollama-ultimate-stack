@@ -11,7 +11,7 @@ Set-Location -Path $PSScriptRoot
 
 Write-Host ""
 Write-Host "=============================================================================="
-Write-Host "  OLLAMA ULTIMATE STACK — WINDOWS INSTALLER"
+Write-Host "  OLLAMA ULTIMATE STACK - WINDOWS INSTALLER"
 Write-Host "=============================================================================="
 Write-Host ""
 Write-Host "Detected this Windows PC automatically. You do not pick an OS or model."
@@ -43,7 +43,7 @@ function Invoke-HardwareCheck {
 }
 
 if (-not (Test-Path (Join-Path $PSScriptRoot ".hardware-profile"))) {
-    Write-Host 'Hardware profile not found — running diagnostic first (no Docker required)...'
+    Write-Host 'Hardware profile not found - running diagnostic first (no Docker required)...'
     Write-Host ""
     [void](Invoke-HardwareCheck)
     Write-Host ""
@@ -170,7 +170,7 @@ if (Select-String -Path ".env" -Pattern "WEBUI_SECRET_KEY=change-me-in-env-file"
 
 $composeArgs = @("-f", "docker-compose.yml")
 if (Get-Command nvidia-smi -ErrorAction SilentlyContinue) {
-    Write-Host "NVIDIA GPU detected — enabling docker-compose.gpu.yml"
+    Write-Host "NVIDIA GPU detected - enabling docker-compose.gpu.yml"
     $composeArgs += @("-f", "docker-compose.gpu.yml")
     if (-not (Select-String -Path ".env" -Pattern "^COMPOSE_FILE=" -Quiet)) {
         Add-Content .env "COMPOSE_FILE=docker-compose.yml:docker-compose.gpu.yml"
