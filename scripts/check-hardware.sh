@@ -292,7 +292,7 @@ V_R132="$(verdict_for r1_32)"
 # Recommended roles for THIS machine (never pick CRASH; skip 24B if VRAM < 8 unless 32GB/unified)
 PRIMARY="qwen2.5-coder:7b"
 RESEARCH="deepseek-r1:8b"
-FALLBACK="qwen2.5-coder:7b"
+FALLBACK="qwen2.5-coder:3b"
 EMBEDDING="nomic-embed-text"
 
 pick_primary() {
@@ -317,10 +317,6 @@ pick_research() {
         return
     fi
     if [ "$V_R114" = "RUN" ]; then
-        RESEARCH="deepseek-r1:14b"
-        return
-    fi
-    if [ "$V_R114" = "SLOW" ] && [ "$RAM_INT" -ge 16 ]; then
         RESEARCH="deepseek-r1:14b"
         return
     fi

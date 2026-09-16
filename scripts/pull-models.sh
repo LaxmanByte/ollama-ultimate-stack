@@ -43,7 +43,7 @@ echo ""
 
 PRIMARY_MODEL="${PRIMARY_MODEL:-qwen2.5-coder:7b}"
 RESEARCH_MODEL="${RESEARCH_MODEL:-deepseek-r1:8b}"
-FALLBACK_MODEL="${FALLBACK_MODEL:-qwen2.5-coder:7b}"
+FALLBACK_MODEL="${FALLBACK_MODEL:-qwen2.5-coder:3b}"
 EMBEDDING_MODEL="${EMBEDDING_MODEL:-nomic-embed-text}"
 
 echo "Models to download (official Ollama library tags):"

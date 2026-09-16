@@ -8,6 +8,8 @@
 #>
 $ErrorActionPreference = "Stop"
 Set-Location -Path $PSScriptRoot
+Get-ChildItem -LiteralPath $PSScriptRoot -Recurse -File -ErrorAction SilentlyContinue |
+    Unblock-File -ErrorAction SilentlyContinue
 
 Write-Host ""
 Write-Host "=============================================================================="

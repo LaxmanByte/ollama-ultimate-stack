@@ -57,7 +57,7 @@ services:
     restart: "no"
 
   open-webui:
-    image: ghcr.io/open-webui/open-webui:main
+    image: openwebui/open-webui:main
     container_name: open-webui
     restart: unless-stopped
     ports:

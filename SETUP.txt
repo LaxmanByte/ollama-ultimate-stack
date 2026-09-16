@@ -1,29 +1,48 @@
-Ollama Ultimate Stack — how to set up
+Ollama Ultimate Stack - how to set up
 =====================================
 
-You do NOT need to know if you are on Windows, Mac, or Linux,
-or Intel vs Apple Silicon / ARM. Setup detects that for you.
+Windows, with Docker Desktop already running (recommended)
+----------------------------------------------------------
+1. Download ZIP (no Git needed):
+     https://github.com/LaxmanByte/ollama-ultimate-stack/archive/refs/heads/main.zip
+   Unzip. Open the folder.
 
-1. Install Git if needed: https://git-scm.com/downloads
+2. If Windows says the file is unsafe: do not fight setup.cmd.
+   Open PowerShell in that folder and run:
 
-2. Clone:
-     git clone https://github.com/LaxmanByte/ollama-ultimate-stack.git
-     cd ollama-ultimate-stack
+     docker compose up -d ollama open-webui
+     docker compose run --rm model-puller
 
-3. Run ONE setup:
-     Windows ........ double-click  setup.cmd
-     Mac / Linux .... bash setup.sh
+   Or double-click start.cmd if Windows allows it.
 
-4. Leave the window open until you see:
-     ALL MODELS DOWNLOADED SUCCESSFULLY
-   (often 15-60 minutes the first time)
+3. Wait for: ALL MODELS DOWNLOADED SUCCESSFULLY
 
-5. Open a browser:
-     http://localhost:3000
-   Pick a model and send Hello.
+4. Open http://localhost:3000
+   16GB laptop: pick qwen2.5-coder:3b if 7b is slow.
 
-Stuck or want a human on screen-share?
-  Email support@gridvoxsystems.com
-  Offer: docs/remote-setup.html (fixed quote after a short hardware check)
+Mac / Linux
+-----------
+  git clone https://github.com/LaxmanByte/ollama-ultimate-stack.git
+  cd ollama-ultimate-stack
+  bash setup.sh
 
+If Docker is missing (Windows can also use setup.cmd / setup.ps1)
+-----------------------------------------------------------------
+  Windows:  setup.cmd   (if Smart App Control blocks it, use the two docker lines above after installing Docker Desktop)
+  Mac/Linux: bash setup.sh
+
+If Open WebUI pull says registry denied
+---------------------------------------
+  docker logout ghcr.io
+  Then start again. This stack pulls Open WebUI from Docker Hub (openwebui/open-webui).
+
+If chat is very slow on Windows + AMD Radeon
+--------------------------------------------
+  Docker Ollama cannot use the AMD iGPU. Pause the Docker ollama container.
+  Install native Ollama: https://ollama.com/download
+  Keep Open WebUI running. Refresh http://localhost:3000
+  Use qwen2.5-coder:3b on 16GB machines.
+
+Stuck? Email support@gridvoxsystems.com
+Paid screen-share: docs/remote-setup.html
 Free path always works without paying.

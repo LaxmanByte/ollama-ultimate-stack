@@ -229,7 +229,7 @@ fi
 echo ""
 echo "Hardware notes:"
 echo "  - 8GB cannot run 24B models (use profiles/8gb.env)."
-echo "  - 16GB RAM, no GPU: 7B ok, 14B risky, 24B will crash."
+echo "  - 16GB RAM, no NVIDIA: 3B is fast, 7B is ok, 14B/24B will crawl or crash."
 echo "  - Devstral 24B really wants ~32GB RAM or a 4090-class GPU."
 echo ""
 

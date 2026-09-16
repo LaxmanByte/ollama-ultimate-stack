@@ -257,7 +257,7 @@ $vR132 = Get-Verdict "r1_32"
 
 $primary = "qwen2.5-coder:7b"
 $research = "deepseek-r1:8b"
-$fallback = "qwen2.5-coder:7b"
+$fallback = "qwen2.5-coder:3b"
 $embedding = "nomic-embed-text"
 
 if ($v30 -eq "RUN") { $primary = "qwen3-coder:30b" }
@@ -266,7 +266,6 @@ elseif ($v7 -ne "CRASH") { $primary = "qwen2.5-coder:7b" }
 
 if ($vR132 -eq "RUN") { $research = "deepseek-r1:32b" }
 elseif ($vR114 -eq "RUN") { $research = "deepseek-r1:14b" }
-elseif ($vR114 -eq "SLOW" -and $ramInt -ge 16) { $research = "deepseek-r1:14b" }
 elseif ($vR18 -ne "CRASH") { $research = "deepseek-r1:8b" }
 
 if ($v7 -eq "CRASH") { $fallback = "nomic-embed-text" }

@@ -25,33 +25,32 @@ Do not close the window during the first run (often **15–60 minutes**). Models
 
 ---
 
-## Setup (one path)
+## Setup
 
-### 1. Clone
+**Windows + Docker Desktop already running (easiest):** download the [ZIP](https://github.com/LaxmanByte/ollama-ultimate-stack/archive/refs/heads/main.zip), unzip, then in that folder:
 
-Install [Git](https://git-scm.com/downloads) if you need it, then:
+```powershell
+docker compose up -d ollama open-webui
+docker compose run --rm model-puller
+```
+
+Or double-click **`start.cmd`**. If Smart App Control blocks the `.cmd` file, use the two PowerShell lines above. Do not use GitHub's `ghcr.io` Open WebUI image; this stack pulls **`openwebui/open-webui`** from Docker Hub.
+
+**Mac / Linux / first-time Docker install:**
 
 ```bash
 git clone https://github.com/LaxmanByte/ollama-ultimate-stack.git
 cd ollama-ultimate-stack
 ```
 
-### 2. Run setup (auto-detects your machine)
-
 | Your computer | What to run |
 |---------------|-------------|
-| **Windows** | Double-click **`setup.cmd`** |
+| **Windows** (no Docker yet) | Double-click **`setup.cmd`**, or `powershell -ExecutionPolicy Bypass -File .\setup.ps1` |
 | **Mac / Linux / WSL** | `bash setup.sh` |
 
-That is the whole install. Setup will:
+Setup will read RAM/GPU, pick models that fit, install Docker if needed, start the stack, and wait until models finish.
 
-1. Read your RAM, CPU, GPU, and disk  
-2. Choose safe models for **this** machine (you do not pick tags)  
-3. Install Docker if it is missing  
-4. Start Ollama + Open WebUI  
-5. Download the models and **wait until they finish**
-
-If Docker Desktop was just installed on Windows: open it, wait until the engine is running, then double-click **`setup.cmd`** again.
+If Docker Desktop was just installed on Windows: open it, wait until the engine is running, then run **`start.cmd`** (or the two `docker compose` lines).
 
 On Linux, if Docker was just installed: log out and back in (or reboot), then run `bash setup.sh` again.
 
@@ -67,12 +66,13 @@ Well-known open models from the official [Ollama library](https://ollama.com/lib
 
 | Role | Typical tag |
 |------|-------------|
+| Fast on 16GB laptops | `qwen2.5-coder:3b` |
 | Coding (most PCs) | `qwen2.5-coder:7b` |
-| Research | `deepseek-r1:8b` or `deepseek-r1:14b` |
-| Strong coding (lots of RAM / GPU) | `devstral:24b` or `qwen3-coder:30b` |
+| Research | `deepseek-r1:8b` (14B only with a real NVIDIA GPU) |
+| Strong coding (32GB RAM or NVIDIA GPU) | `devstral:24b` or `qwen3-coder:30b` |
 | File / PDF chat | `nomic-embed-text` |
 
-**Honest limits:** 8GB RAM stays on small models; 16GB without a strong GPU should not run 24B; 32GB RAM or a 24GB-class GPU can.
+**Honest limits:** 8GB and 16GB Docker laptops should use **3B** if chat is slow; 16GB without NVIDIA should not run 14B/24B; 32GB RAM or a 24GB-class NVIDIA GPU can. Docker Ollama on **Windows + AMD Radeon** is CPU-only — install [native Ollama](https://ollama.com/download), pause the Docker `ollama` container, keep Open WebUI.
 
 ---
 
@@ -115,7 +115,8 @@ docker compose run --rm model-puller
 ## Commands (optional)
 
 ```text
-bash setup.sh / setup.cmd   Full first-time setup (recommended)
+start.cmd / docker compose  Windows when Docker is already running
+bash setup.sh / setup.cmd   Full first-time setup (installs Docker if needed)
 make check                  Hardware diagnostic only
 make up / make down         Start / stop
 make models                 List models
@@ -138,7 +139,7 @@ make info                   URLs and tips
 
 | Path | Notes |
 |------|-------|
-| Free DIY | Clone → `setup.cmd` / `bash setup.sh` → wait for models → http://localhost:3000 |
+| Free DIY | ZIP or clone → `start.cmd` / `docker compose` / `bash setup.sh` → wait for models → http://localhost:3000 |
 | [GitHub Issues](https://github.com/LaxmanByte/ollama-ultimate-stack/issues) | Bugs and install failures |
 | Email [support@gridvoxsystems.com](mailto:support@gridvoxsystems.com) | Short questions |
 | **[Remote setup (paid)](docs/remote-setup.html)** | Fixed quote after a short hardware & privacy check (no listed sticker price) |

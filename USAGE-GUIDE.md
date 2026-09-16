@@ -2,11 +2,12 @@
 
 Step-by-step for chat, files, RAG, Continue, Cline, and troubleshooting. Everything is local. No API keys. No license activation.
 
-**Order:** clone → run **setup** (auto-detects your OS and hardware) → wait for **`ALL MODELS DOWNLOADED SUCCESSFULLY`** → open http://localhost:3000. Models stay on disk; the next start does not download them again.
+**Order:** unzip or clone → start Docker → wait for **`ALL MODELS DOWNLOADED SUCCESSFULLY`** → open http://localhost:3000. Models stay on disk; the next start does not download them again.
 
 | Machine | Run |
 |---------|-----|
-| Windows | Double-click `setup.cmd` |
+| Windows (Docker already running) | `start.cmd` or the two `docker compose` lines in SETUP.txt |
+| Windows (no Docker yet) | `setup.cmd` or `powershell -ExecutionPolicy Bypass -File .\setup.ps1` |
 | Mac / Linux / WSL | `bash setup.sh` |
 
 You do not need to know Intel vs ARM or which model to pick. Setup will not overwrite a custom `.env`.
@@ -279,7 +280,7 @@ make pull-all
 ### Out of memory / 24B will not load
 
 - **8GB cannot run 24B.** Copy `profiles/8gb.env` to `.env` and `make update`.
-- **16GB without a GPU** often cannot keep `devstral:24b` in memory. Use `qwen2.5-coder:7b` or add a GPU.
+- **16GB without NVIDIA** should use `qwen2.5-coder:3b` (fast) or `qwen2.5-coder:7b` (heavier). Do not pull 14B/24B.
 - **Devstral 24B** wants ~32GB RAM or a 4090-class GPU.
 - Lower `OLLAMA_CONTEXT_LENGTH` to `4096`
 - Close other apps; on Linux add swap if needed
@@ -292,9 +293,32 @@ make pull-all
 
 Open a **folder** (`File → Open Folder`), not a loose file.
 
+### Chat is very slow (16GB Windows laptop)
+
+Use **`qwen2.5-coder:3b`**, not 7B or DeepSeek. Unload the big model: `docker exec ollama ollama stop qwen2.5-coder:7b`. Pause other stacks (LexRAG/appliance) while testing. On **AMD Radeon**, Docker Ollama cannot use the iGPU — pause the Docker `ollama` container, install [native Ollama](https://ollama.com/download), keep Open WebUI, refresh http://localhost:3000. Do not run Hub `ollama/ollama:rocm` on Windows (that image is Linux).
+
+### Pull access denied / registry denied (Open WebUI)
+
+```powershell
+docker logout ghcr.io
+docker compose pull
+docker compose up -d ollama open-webui
+```
+
+This stack uses Docker Hub `openwebui/open-webui` (not `open-webui/open-webui` and not GHCR).
+
+### Smart App Control / "file may be unsafe"
+
+Do not double-click `setup.cmd`. Open PowerShell in the unzipped folder:
+
+```powershell
+docker compose up -d ollama open-webui
+docker compose run --rm model-puller
+```
+
 ### GPU not used
 
-Linux/WSL2: NVIDIA driver + NVIDIA Container Toolkit. Re-run install so `docker-compose.gpu.yml` is attached. Docker on macOS typically does **not** pass Apple GPU into Linux containers; native Ollama is better for Metal.
+Linux/WSL2: NVIDIA driver + NVIDIA Container Toolkit. Re-run install so `docker-compose.gpu.yml` is attached. Docker on macOS typically does **not** pass Apple GPU into Linux containers; native Ollama is better for Metal. Windows AMD: native Ollama, not the ROCm Docker tag.
 
 ### Port 3000 or 11434 busy
 

@@ -1,9 +1,9 @@
-# Optional NVIDIA GPU overlay.
+# Optional NVIDIA GPU overlay only (nvidia-smi).
 # Linux / Windows (WSL2 + NVIDIA Container Toolkit):
 #   COMPOSE_FILE=docker-compose.yml:docker-compose.gpu.yml
-# or:
-#   docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d
-# install.sh / install.ps1 enable this automatically when nvidia-smi is present.
+# AMD Radeon on Windows: do NOT use Hub ollama/ollama:rocm (that is Linux).
+# Stop the Docker ollama container and install native Ollama from https://ollama.com/download
+# Keep Open WebUI in Docker; it already talks to http://host.docker.internal:11434 after that.
 
 services:
   ollama:
